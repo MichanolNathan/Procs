@@ -4,77 +4,67 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Contact {
+public class Contact extends Entreprise {
 
-	public int id;
 	public String lastName;
 	public String firstName;
 	public String email;
 	public Adress adress;
-	public PhoneNumber phoneNumber;
-	public Entreprise entreprise;
-	public HashSet<Group> groups;
-	String numsiret;
-	String name;
-	Set<PhoneNumber> phoneNumbers;
+	public Set<Group> groups;
+	public Set<PhoneNumber> phoneNumbers;
 
-	public Contact(int id, String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, HashSet<Group> groups,HashSet<PhoneNumber> phoneNumbers) 
+	public Contact(int id, String lastName, String firstName, String email, Adress adress, String numSiret, String companyName, Set<Group> groups, Set<PhoneNumber> phoneNumbers) 
 	{
-		super();
-		this.id = id;
+		super(id, numSiret, companyName);
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
 		this.adress = adress;
 		this.phoneNumbers = phoneNumbers;
-		this.entreprise = entreprise;
 		this.groups = groups;
 	}
 	
-	public Contact(String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, HashSet<Group> groups,HashSet<PhoneNumber> phoneNumbers) 
+	public Contact(String lastName, String firstName, String email, Adress adress, String numSiret, String companyName, Set<Group> groups, Set<PhoneNumber> phoneNumbers) 
 	{
-		super();
+		super(numSiret, companyName);
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
 		this.adress = adress;
-		this.phoneNumber = phoneNumber;
-		this.entreprise = entreprise;
 		this.groups = groups;
 		this.phoneNumbers = phoneNumbers;
 	}
 	
-	public Contact(String lastName, String firstName, String email) {
-		super();
-		this.id = -1;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-	}
-	
-	public Contact(int id) {
-		super();
-		this.id = id;
-		this.lastName = "";
-		this.firstName = "";
-		this.email = "";
-	}
-	
-	public Contact(int id, String lastName, String firstName, String email) 
-	{
-		super();
-		this.id = id;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-	}
-	
-	public HashSet<Group> getGroups() {
+	public Set<Group> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(HashSet<Group> groups) {
+	public void setGroups(Set<Group> groups) {
 		this.groups = groups;
+	}
+	
+	public void addGroups(Group group) {
+		groups.add(group);
+	}
+	
+	public void removeGroups(Group group) {
+		groups.remove(group);
+	}
+	
+	public Set<PhoneNumber> getPhoneNumbers() {
+		return phoneNumbers;
+	}
+
+	public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
+		this.phoneNumbers = phoneNumbers;
+	}
+	
+	public void addPhoneNumber(PhoneNumber phoneNumber) {
+		phoneNumbers.add(phoneNumber);
+	}
+	
+	public void removePhoneNumber(PhoneNumber phoneNumber) {
+		phoneNumbers.remove(phoneNumber);
 	}
 	
 	public Adress getAdress() {
@@ -83,30 +73,6 @@ public class Contact {
 
 	public void setAdress(Adress adress) {
 		this.adress = adress;
-	}
-	
-	public PhoneNumber getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(PhoneNumber phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public Entreprise getEntreprise() {
-		return entreprise;
-	}
-
-	public void setEntreprise(Entreprise entreprise) {
-		this.entreprise = entreprise;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getLastName() {
