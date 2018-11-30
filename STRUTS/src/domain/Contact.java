@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Contact {
 
@@ -11,11 +13,12 @@ public class Contact {
 	public Adress adress;
 	public PhoneNumber phoneNumber;
 	public Entreprise entreprise;
-	public List<Group> groups;
+	public HashSet<Group> groups;
 	String numsiret;
 	String name;
+	Set<PhoneNumber> phoneNumbers;
 
-	public Contact(int id, String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, List<Group> groups) 
+	public Contact(int id, String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, HashSet<Group> groups,HashSet<PhoneNumber> phoneNumbers) 
 	{
 		super();
 		this.id = id;
@@ -23,12 +26,12 @@ public class Contact {
 		this.firstName = firstName;
 		this.email = email;
 		this.adress = adress;
-		this.phoneNumber = phoneNumber;
+		this.phoneNumbers = phoneNumbers;
 		this.entreprise = entreprise;
 		this.groups = groups;
 	}
 	
-	public Contact(String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, List<Group> groups) 
+	public Contact(String lastName, String firstName, String email, Adress adress, PhoneNumber phoneNumber, Entreprise entreprise, HashSet<Group> groups,HashSet<PhoneNumber> phoneNumbers) 
 	{
 		super();
 		this.lastName = lastName;
@@ -38,6 +41,7 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.entreprise = entreprise;
 		this.groups = groups;
+		this.phoneNumbers = phoneNumbers;
 	}
 	
 	public Contact(String lastName, String firstName, String email) {
@@ -65,11 +69,11 @@ public class Contact {
 		this.email = email;
 	}
 	
-	public List<Group> getGroups() {
+	public HashSet<Group> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(List<Group> groups) {
+	public void setGroups(HashSet<Group> groups) {
 		this.groups = groups;
 	}
 	

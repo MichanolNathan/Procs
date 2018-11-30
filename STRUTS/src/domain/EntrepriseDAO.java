@@ -3,7 +3,10 @@ package domain;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.hibernate.Query;
 
 import com.sun.rowset.CachedRowSetImpl;
 
@@ -21,34 +24,31 @@ public class EntrepriseDAO extends DAO
 	public String addEntreprise(Entreprise entreprise)
 	{
 		String res = null;
-		String query = "INSERT INTO entreprise (numsiret, name) VALUES(?, ?);";
-		try 
-		{
-			super.setStmt(super.getCx().prepareStatement(query, Statement.RETURN_GENERATED_KEYS));
-			super.getStmt().setString(1, entreprise.numsiret);
-			super.getStmt().setString(2, entreprise.name);
-			res = super.updateQuery();
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
+		try {
+			super.doTransaction();
+			super.getSession().save(entreprise);
+			super.commitTransaction();
+			res = "entreprise ajoutée";
 		}
+		catch (Exception e) {
+			e.printStackTrace();;
+		}
+
 		return res;
 	}
 	
 	public String editEntreprise(Entreprise entreprise)
 	{
 		String res = null;
-		String query = "UPDATE entreprise SET numsiret = ?, name = ? WHERE id = ?;";
 		try 
 		{
-			super.setStmt(super.getCx().prepareStatement(query, Statement.RETURN_GENERATED_KEYS));
-			super.getStmt().setString(1, entreprise.numsiret);
-			super.getStmt().setString(2, entreprise.name);
-			super.getStmt().setInt(3, entreprise.id);
-			res = super.updateQuery();
+			Query query = super.getSession().createQuery("UPDATE entreprise SET numsiret:paramSiret, name:nameParam WHERE id:idParam;");
+			query.setString("paramSiret", entreprise.getNumsiret());
+			query.setString("nameParam", entreprise.getName());
+			query.setInteger("idParam", entreprise.getId());
+			res = "Update réussi";
 		} 
-		catch (SQLException e) 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
@@ -57,49 +57,17 @@ public class EntrepriseDAO extends DAO
 	
 	public Entreprise getEntreprise(int id) 
 	{
-		String query = "SELECT * FROM entreprise WHERE id = ?;";
-    	CachedRowSetImpl crs = null;
-    	Entreprise entreprise = null;
-    	try 
-		{
-			super.setStmt(super.getCx().prepareStatement(query));
-			super.getStmt().setLong(1, id);
-			crs = super.executeQuery();
-			while(crs.next())
-			{
-				String numsiret = crs.getString("numsiret");
-				String name = crs.getString("name");
-				entreprise = new Entreprise(id, numsiret, name);
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-    	return entreprise;
+    	return (Entreprise) super.getSession().get(Entreprise.class, id);
 	}
 
 	public List<Entreprise> getAllEntreprises() 
 	{
-		List<Entreprise> entreprises = new ArrayList<Entreprise>();
-    	String query = "SELECT * FROM entreprise;";
-    	CachedRowSetImpl crs = null;
-    	try 
-		{
-			super.setStmt(super.getCx().prepareStatement(query));
-			crs = super.executeQuery();
-			while(crs.next())
-			{
-				int id = crs.getInt("id");
-				String numsiret = crs.getString("numsiret");
-				String name = crs.getString("name");
-				entreprises.add(new Entreprise(id, numsiret, name));
-			}
-		} 
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
+		List  results = super.getSession().createQuery("SELECT * FROM entreprise;").list();
+    	List <Entreprise> entreprises = new ArrayList<Entreprise>();
+    	for (Iterator iter = results.iterator();iter.hasNext();) {
+    		Entreprise entr = (Entreprise) iter.next();
+    		entreprises.add(entr);
+    	}
     	return entreprises;
 	}
 

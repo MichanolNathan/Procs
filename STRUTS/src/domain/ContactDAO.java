@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -20,11 +21,11 @@ public class ContactDAO extends DAO
         super();
     }
     
-    public List<Contact> getAllContacts()
+    public HashSet<Contact> getAllContacts()
     {
-    	List<Contact> contacts = new ArrayList<Contact>();
+    	HashSet<Contact> contacts = new HashSet<Contact>();
 		StringBuffer request = new StringBuffer();
-		request.append("select group from Group group");
+		request.append("select contact from Contact contact");
 		Query query = super.getSession().createQuery(request.toString());
 		for (final Object o : query.list()) {
 			contacts.add((Contact)(o));
@@ -54,7 +55,7 @@ public class ContactDAO extends DAO
 		{
 			super.getSession().update(contact);
 			super.commitTransaction();
-			res = "mise à jour de l'adresse réussie";
+			res = "mise à jour du contact réussie";
 		} 
 		catch (Exception e) 
 		{
@@ -78,10 +79,10 @@ public class ContactDAO extends DAO
 		return res;
 	}
 	
-	public String searchContact(String search)
+	/*public String searchContact(String search)
 	{
 		return "Je suis la méthode searchContact, vous avez cherchez : " + search;
-	}
+	}*/
 
 	public Contact getContact(int id) 
 	{
