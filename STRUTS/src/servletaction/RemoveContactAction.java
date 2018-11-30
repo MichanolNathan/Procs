@@ -14,14 +14,22 @@ import domain.Adress;
 import domain.AdressDAO;
 import domain.Contact;
 import domain.ContactDAO;
-import domain.ContactGroupDAO;
 import domain.PhoneNumber;
 import domain.PhoneNumberDAO;
+import service.AdresseService;
+import service.ContactService;
+import service.EntrepriseService;
+import service.PhoneNumberService;
 
 public class RemoveContactAction extends Action 
 {
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest, final HttpServletResponse pResponse)
 	{
+		
+		PhoneNumberService phoneService = new PhoneNumberService();
+		AdresseService adresseService = new AdresseService();
+		EntrepriseService entrepriseService = new EntrepriseService();
+		ContactService contactService = new ContactService();
 		
 		HttpSession session = pRequest.getSession();
         if(session.getAttribute("user") == null) {
@@ -35,6 +43,7 @@ public class RemoveContactAction extends Action
 		}
 		catch (Exception e) {}
 		String lError;
+		
 		
 		/*final ContactDAO lContactDAO = new ContactDAO();
 		final Contact contact = lContactDAO.getContact(id);

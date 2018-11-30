@@ -17,7 +17,7 @@ import domain.Adress;
 import domain.AdressDAO;
 import domain.Contact;
 import domain.ContactDAO;
-import domain.ContactGroupDAO;
+import service.*;
 import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
@@ -30,7 +30,11 @@ public class AddContactAction extends Action
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest, final HttpServletResponse pResponse)
 	{
 		
+		PhoneNumberService phoneService = new PhoneNumberService();
+		AdresseService adresseService = new AdresseService();
+		EntrepriseService entrepriseService = new EntrepriseService();
 		HttpSession session = pRequest.getSession();
+		
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
@@ -45,8 +49,8 @@ public class AddContactAction extends Action
 		final String phoneKind = lForm.getPhoneKind();
 		final String phoneNumber = lForm.getPhoneNumber();
 		PhoneNumber phone = new PhoneNumber(phoneKind, phoneNumber);
-		
-		//PhoneNumberDAO phoneNumberDAO = new PhoneNumberDAO();
+
+		phoneService.addPhoneNumber(phone);
 		//String sIdPhoneNumber = phoneNumberDAO.addPhoneNumber(phone);
 		/*int idPhoneNumber = -1;
 		try
@@ -62,7 +66,7 @@ public class AddContactAction extends Action
 		final String zip = lForm.getZip();
 		final String street = lForm.getStreet();
 		Adress adress = new Adress(street, city, zip, country);
-		
+		adresseService.addAdress(adress);
 		//AdressDAO adressDAO = new AdressDAO();
 		//String sIdAdress = adressDAO.addAdress(adress);
 		/*int idAdress = -1;

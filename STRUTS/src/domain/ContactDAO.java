@@ -30,6 +30,7 @@ public class ContactDAO extends DAO
 		for (final Object o : query.list()) {
 			contacts.add((Contact)(o));
 		}
+		super.endTransaction();
     	return contacts;
     }
 
@@ -54,7 +55,7 @@ public class ContactDAO extends DAO
 		try 
 		{
 			super.getSession().update(contact);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "mise à jour du contact réussie";
 		} 
 		catch (Exception e) 
@@ -70,7 +71,7 @@ public class ContactDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(contact);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {

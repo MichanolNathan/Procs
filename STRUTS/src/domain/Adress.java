@@ -7,6 +7,7 @@ public class Adress {
 	public String city;
 	public String zip;
 	public String country;
+	private int version;
 	
 	public Adress(int id)
 	{

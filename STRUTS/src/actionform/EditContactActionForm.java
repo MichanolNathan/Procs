@@ -1,9 +1,7 @@
 package actionform;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,13 +30,13 @@ public class EditContactActionForm extends ActionForm
 	private String firstName = null;
 	private String email = null;
 	
-	/* Company */
-	private String numSiret = null;
-	private String companyName = null;
-	
 	/* PhoneNumber */
 	private String phoneKind = null;
 	private String phoneNumber = null;
+	
+	/* Entreprise */
+	private String entreprise = null;
+	private List entreprises; 
 	
 	/* Adress */
 	private String street = null;
@@ -56,6 +54,8 @@ public class EditContactActionForm extends ActionForm
 	public EditContactActionForm() 
 	{
 		super();
+		EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
+		this.entreprises = entrepriseDAO.getAllEntreprises();
 		
 		GroupDAO lGroupDAO = new GroupDAO();
 		this.listGroups = lGroupDAO.getAllGroups();
@@ -93,22 +93,6 @@ public class EditContactActionForm extends ActionForm
 		this.groups = groups;
 	}
 
-	public String getNumSiret() {
-		return numSiret;
-	}
-	
-	public void setNumSiret(String numSiret) {
-		this.numSiret = numSiret;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
 	public String getPhoneKind() {
 		return phoneKind;
 	}
@@ -123,6 +107,19 @@ public class EditContactActionForm extends ActionForm
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEntreprise() {
+		return entreprise;
+	}
+	
+	public void setEntreprise(String entreprise) 
+	{
+		this.entreprise = entreprise;
+	}
+
+	public void setName(String entreprise) {
+		this.entreprise = entreprise;
 	}
 
 	public String getStreet() {
@@ -204,14 +201,6 @@ public class EditContactActionForm extends ActionForm
 			errors.add("email", new ActionMessage("form.contact.email.error"));
 		}
 		
-		/* Company */
-		if (this.numSiret == null || this.numSiret.length() != 14) {
-			errors.add("numSiret", new ActionMessage("form.contact.numSiret.error.size"));
-		}
-		if (this.companyName == null || this.companyName.length() < 1 || this.companyName.length() > 45) {
-			errors.add("companyName", new ActionMessage("form.contact.companyName.error.size"));
-		}		
-		
 		/* PhoneNumber */
 		if ((this.phoneKind != "" && this.phoneKind.length() < 3) || this.phoneKind.length() > 10)
 		{
@@ -242,16 +231,26 @@ public class EditContactActionForm extends ActionForm
 		
 		if(!errors.isEmpty()) 
 		{
+			System.out.println(this.entreprise);
 			PhoneNumber phone = new PhoneNumber(Integer.parseInt(this.idPhone), this.phoneKind, this.phoneNumber);
 			Adress adress = new Adress(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
-			Set<Group> contactGroup = new HashSet<Group>();
+			Entreprise oEntreprise;
+			try
+			{
+				oEntreprise = new Entreprise(Integer.parseInt(this.entreprise));
+			}
+			catch (Exception e)
+			{
+				oEntreprise = new Entreprise(-1);
+			}
+			List<Group> contactGroup = new ArrayList<Group>();
 			for (String idGroup : this.groups)
 			{
 				contactGroup.add(new Group(Integer.parseInt(idGroup)));
 			}
-			Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
-			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, this.numSiret, this.companyName, contactGroup, phoneNumbers);
+			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phone, oEntreprise, contactGroup);
 			request.setAttribute("contact", contact);
+			request.setAttribute("entreprises", this.entreprises);
             request.setAttribute("listGroups", this.listGroups);
         }
 		return errors;

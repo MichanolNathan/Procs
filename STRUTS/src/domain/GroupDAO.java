@@ -30,6 +30,7 @@ public class GroupDAO extends DAO
     		for (final Object o : query.list()) {
     			groupList.add((Group)(o));
     		}
+    	super.endTransaction();
     	return groupList;
     }
 	
@@ -44,7 +45,7 @@ public class GroupDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(group);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "Groupe added to the dataBase";
 		}
 		catch (Exception e) {
@@ -59,7 +60,7 @@ public class GroupDAO extends DAO
 		try 
 		{
 			super.getSession().update(group);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "mise à jour de l'adresse réussie";
 		} 
 		catch (Exception e) 

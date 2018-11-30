@@ -24,13 +24,13 @@ public class AddContactActionForm extends ActionForm
 	private String firstName = null;
 	private String email = null;
 	
-	/* Company */
-	private String numSiret = null;
-	private String companyName = null;
-	
 	/* PhoneNumber */
 	private String phoneKind = null;
 	private String phoneNumber = null;
+	
+	/* Entreprise */
+	private String entreprise = null;
+	private List entreprises; 
 	
 	/* Adress */
 	private String street = null;
@@ -45,6 +45,8 @@ public class AddContactActionForm extends ActionForm
 	public AddContactActionForm() 
 	{
 		super();
+		EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
+		this.entreprises = entrepriseDAO.getAllEntreprises();
 		
 		GroupDAO lGroupDAO = new GroupDAO();
 		this.listGroups = lGroupDAO.getAllGroups();
@@ -56,22 +58,6 @@ public class AddContactActionForm extends ActionForm
 
 	public void setGroups(String[] groups) {
 		this.groups = groups;
-	}
-
-	public String getNumSiret() {
-		return numSiret;
-	}
-	
-	public void setNumSiret(String numSiret) {
-		this.numSiret = numSiret;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 
 	public String getPhoneKind() {
@@ -88,6 +74,19 @@ public class AddContactActionForm extends ActionForm
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEntreprise() {
+		return entreprise;
+	}
+	
+	public void setEntreprise(String entreprise) 
+	{
+		this.entreprise = entreprise;
+	}
+
+	public void setName(String entreprise) {
+		this.entreprise = entreprise;
 	}
 
 	public String getStreet() {
@@ -169,14 +168,6 @@ public class AddContactActionForm extends ActionForm
 			errors.add("email", new ActionMessage("form.contact.email.error"));
 		}
 		
-		/* Company */
-		if (this.numSiret == null || this.numSiret.length() != 14) {
-			errors.add("numSiret", new ActionMessage("form.contact.numSiret.error.size"));
-		}
-		if (this.companyName == null || this.companyName.length() < 1 || this.companyName.length() > 45) {
-			errors.add("companyName", new ActionMessage("form.contact.companyName.error.size"));
-		}		
-		
 		/* PhoneNumber */
 		if ((this.phoneKind != "" && this.phoneKind.length() < 3) || this.phoneKind.length() > 10)
 		{
@@ -207,6 +198,7 @@ public class AddContactActionForm extends ActionForm
 		
 		if(!errors.isEmpty()) 
 		{
+            request.setAttribute("entreprises", this.entreprises);
             request.setAttribute("listGroups", this.listGroups);
         }
 		

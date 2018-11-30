@@ -22,22 +22,35 @@ public class DAO {
 	private Session session;
 	private Transaction transac;
 	
-	public void doTransaction() {
-		org.hibernate.Transaction tx = this.session.beginTransaction();
-	}
-	
-	public void commitTransaction() {
-		this.transac = this.session.beginTransaction();
-		this.transac.commit();
-	}
-	
-	public Session getSession() {
-		return this.session;
-	}
-	
+
 	DAO() {
 		super();
 		this.session = HibernateUtil.getSessionFactory().getCurrentSession();
 		this.transac = null;
+	}
+	
+	public void doTransaction() {
+		try {
+		this.transac = this.session.beginTransaction();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void endTransaction() {
+		try {
+		this.transac.commit();
+		
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.transac = null;
+	}
+	
+	public Session getSession() {
+		return this.session;
 	}
 }

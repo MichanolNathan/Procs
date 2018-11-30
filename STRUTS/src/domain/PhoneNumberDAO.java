@@ -25,7 +25,7 @@ public class PhoneNumberDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(phoneNumber);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -40,7 +40,7 @@ public class PhoneNumberDAO extends DAO
 		try 
 		{
 			super.getSession().update(phoneNumber);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "mise à jour de l'adresse réussie";
 		} 
 		catch (Exception e) 

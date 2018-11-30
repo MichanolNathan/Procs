@@ -1,16 +1,8 @@
 package domain;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sun.rowset.CachedRowSetImpl;
-
 import domain.DAO;
 import domain.Adress;
-import org.hibernate.Session;
+
 
 public class AdressDAO extends DAO
 {
@@ -26,7 +18,7 @@ public class AdressDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(adress);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -41,7 +33,7 @@ public class AdressDAO extends DAO
 		try 
 		{
 			super.getSession().update(adress);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "mise à jour de l'adresse réussie";
 		} 
 		catch (Exception e) 

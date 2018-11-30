@@ -27,7 +27,7 @@ public class EntrepriseDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(entreprise);
-			super.commitTransaction();
+			super.doTransaction();
 			res = "entreprise ajoutée";
 		}
 		catch (Exception e) {
@@ -43,7 +43,7 @@ public class EntrepriseDAO extends DAO
 		try 
 		{
 			Query query = super.getSession().createQuery("UPDATE entreprise SET numsiret:paramSiret, name:nameParam WHERE id:idParam;");
-			query.setString("paramSiret", entreprise.getNumsiret());
+			query.setString("paramSiret", entreprise.getNumSiret());
 			query.setString("nameParam", entreprise.getName());
 			query.setInteger("idParam", entreprise.getId());
 			res = "Update réussi";
@@ -68,6 +68,7 @@ public class EntrepriseDAO extends DAO
     		Entreprise entr = (Entreprise) iter.next();
     		entreprises.add(entr);
     	}
+    	super.endTransaction();
     	return entreprises;
 	}
 

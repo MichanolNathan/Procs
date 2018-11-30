@@ -3,27 +3,28 @@ package domain;
 public class Entreprise 
 {
 	public int id;
-	public String numsiret;
+	public String numSiret;
 	public String name;
+	private int version;
 	
 	public Entreprise(int id)
 	{
 		this.id = id;
-		this.numsiret = "";
+		this.numSiret = "";
 		this.name = "";
 	}
 	
 	public Entreprise(int id, String numsiret, String name)
 	{
 		this.id = id;
-		this.numsiret = numsiret;
+		this.numSiret = numSiret;
 		this.name = name;
 	}
 	
-	public Entreprise(String numsiret, String name)
+	public Entreprise(String numSiret, String name)
 	{
 		this.id = -1;
-		this.numsiret = numsiret;
+		this.numSiret = numSiret;
 		this.name = name;
 	}
 	
@@ -43,12 +44,12 @@ public class Entreprise
 		this.id = id;
 	}
 
-	public String getNumsiret() {
-		return numsiret;
+	public String getNumSiret() {
+		return numSiret;
 	}
 
-	public void setNumsiret(String numsiret) {
-		this.numsiret = numsiret;
+	public void setNumSiret(String numsiret) {
+		this.numSiret = numsiret;
 	}
 	
 }
