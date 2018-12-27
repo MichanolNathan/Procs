@@ -6,10 +6,11 @@ public class Group
 	public String groupName;
 	private int version;
 	
+	public Group () {};
+	
 	public Group(int id)
 	{
 		this.id = id;
-		this.groupName = "";
 	}
 	
 	public Group(String groupName)
@@ -27,6 +28,10 @@ public class Group
 	public int getId() {
 		return id;
 	}
+	
+	public int getVersion() {
+		return this.version;
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -38,5 +43,9 @@ public class Group
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }

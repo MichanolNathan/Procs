@@ -64,23 +64,6 @@
    				<p><html:errors property="email"/></p>
 			</div>
 		</div>
-		<h4 class="ui dividing header"><bean:message key="form.contact.phone"/></h4>
-		<div class="fields">
-			<div class="three wide field">
-				<label for="phoneKind"><bean:message key="form.contact.phoneKind.label"/></label>
-				<html:text property="phoneKind" size="10" maxlength="10" styleId="phoneKind"/>
-				<div class="ui error message">
-	   				<p><html:errors property="phoneKind"/></p>
-				</div>
-			</div>
-			<div class="six wide field">
-				<label for="phoneNumber"><bean:message key="form.contact.phoneNumber.label"/></label>
-				<html:text property="phoneNumber" size="15" maxlength="15" styleId="phoneNumber"/>
-				<div class="ui error message">
-	   				<p><html:errors property="phoneNumber"/></p>
-				</div>
-			</div>
-		</div>
 		<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
 		<div class="two fields">
 			<div class="field">

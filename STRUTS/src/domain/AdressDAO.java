@@ -1,8 +1,5 @@
 package domain;
-
 import domain.DAO;
-import domain.Adress;
-
 
 public class AdressDAO extends DAO
 {
@@ -12,13 +9,13 @@ public class AdressDAO extends DAO
 		super();
 	}
 	
-	public String addAdress(Adress adress)
+	public String addAdress(Adresse adress)
 	{
 		String res = null;
 		try {
 			super.doTransaction();
 			super.getSession().save(adress);
-			super.doTransaction();
+			super.endTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -27,28 +24,17 @@ public class AdressDAO extends DAO
 		return res;
 	}
 	
-	public String editAdress(Adress adress)
+	
+	public Adresse getAdress(int id) 
 	{
-		String res = null;
-		try 
-		{
-			super.getSession().update(adress);
-			super.doTransaction();
-			res = "mise à jour de l'adresse réussie";
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		return res;
+		Adresse adresse = null;
+		super.doTransaction();
+		adresse = (Adresse) super.getSession().get(Adresse.class, id);
+		super.endTransaction();
+		return adresse;
 	}
 	
-	public Adress getAdress(int id) 
-	{
-		return (Adress) super.getSession().get(Adress.class, id);
-	}
-	
-	public String removeAdress(Adress adress)
+	public String removeAdress(Adresse adress)
 	{
 		String res = null;
 		try 

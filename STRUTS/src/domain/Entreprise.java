@@ -1,30 +1,24 @@
 package domain;
 
-public class Entreprise 
+import java.util.List;
+import java.util.Set;
+
+public class Entreprise extends Contact
 {
-	public int id;
 	public String numSiret;
 	public String name;
-	private int version;
 	
-	public Entreprise(int id)
+	public Entreprise(int id,String lastName,String firstName,String email,Adresse address, Set<PhoneNumber> phoneNumbers,List<Group> groups,String numsiret,String name)
 	{
-		this.id = id;
-		this.numSiret = "";
-		this.name = "";
-	}
-	
-	public Entreprise(int id, String numsiret, String name)
-	{
-		this.id = id;
-		this.numSiret = numSiret;
+		//super (id,lastName,firstName,email,address,phoneNumbers,groups);
+		this.numSiret = numsiret;
 		this.name = name;
 	}
 	
-	public Entreprise(String numSiret, String name)
+	public Entreprise(String lastName,String firstName,String email,Adresse address, Set<PhoneNumber> phoneNumbers,List<Group> groups,String numsiret,String name)
 	{
-		this.id = -1;
-		this.numSiret = numSiret;
+		//super (lastName,firstName,email,address,phoneNumbers,groups);
+		this.numSiret = numsiret;
 		this.name = name;
 	}
 	
@@ -43,6 +37,7 @@ public class Entreprise
 	public void setId(int id) {
 		this.id = id;
 	}
+
 
 	public String getNumSiret() {
 		return numSiret;

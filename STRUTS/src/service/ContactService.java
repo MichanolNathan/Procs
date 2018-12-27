@@ -16,6 +16,7 @@ public class ContactService {
 	EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
 	AdressDAO addresseDao = new AdressDAO();
 	
+	public ContactService() {};
 	public String addContact (Contact contact) {
 		return this.contactDao.addContact(contact);
 	}
@@ -27,7 +28,7 @@ public class ContactService {
 	public Contact getContact(int id) {
 		return this.contactDao.getContact(id);
 	}
-    public Set<Contact> getAllContacts() {
+    public List<Contact> getAllContacts() {
     	return this.contactDao.getAllContacts();
     }
     

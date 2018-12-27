@@ -34,7 +34,7 @@ public class PhoneNumberDAO extends DAO
 		return res;
 	}
 	
-	public String editPhoneNumber(PhoneNumber phoneNumber)
+	/*public String editPhoneNumber(PhoneNumber phoneNumber)
 	{
 		String res = null;
 		try 
@@ -48,7 +48,7 @@ public class PhoneNumberDAO extends DAO
 			e.printStackTrace();
 		}
 		return res;
-	}
+	}*/
 	
 	public PhoneNumber getPhoneNumber(int id) 
 	{

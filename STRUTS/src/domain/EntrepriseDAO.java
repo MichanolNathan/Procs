@@ -62,6 +62,7 @@ public class EntrepriseDAO extends DAO
 
 	public List<Entreprise> getAllEntreprises() 
 	{
+    	super.doTransaction();
 		List  results = super.getSession().createQuery("SELECT * FROM entreprise;").list();
     	List <Entreprise> entreprises = new ArrayList<Entreprise>();
     	for (Iterator iter = results.iterator();iter.hasNext();) {

@@ -10,7 +10,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import actionform.AddContactActionForm;
-import domain.Adress;
+import domain.Adresse;
 import domain.AdressDAO;
 import domain.Contact;
 import domain.ContactDAO;

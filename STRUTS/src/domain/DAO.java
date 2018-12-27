@@ -19,19 +19,21 @@ import util.HibernateUtil;
 
 public class DAO {
 	
-	private Session session;
 	private Transaction transac;
 	
 
 	DAO() {
 		super();
-		this.session = HibernateUtil.getSessionFactory().getCurrentSession();
 		this.transac = null;
+	}
+	
+	public Session getSession() {
+		return HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 	
 	public void doTransaction() {
 		try {
-		this.transac = this.session.beginTransaction();
+		this.transac = this.getSession().beginTransaction();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -50,7 +52,4 @@ public class DAO {
 		this.transac = null;
 	}
 	
-	public Session getSession() {
-		return this.session;
-	}
 }

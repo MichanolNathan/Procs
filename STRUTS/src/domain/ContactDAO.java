@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -21,15 +22,11 @@ public class ContactDAO extends DAO
         super();
     }
     
-    public HashSet<Contact> getAllContacts()
+    public List <Contact> getAllContacts()
     {
-    	HashSet<Contact> contacts = new HashSet<Contact>();
-		StringBuffer request = new StringBuffer();
-		request.append("select contact from Contact contact");
-		Query query = super.getSession().createQuery(request.toString());
-		for (final Object o : query.list()) {
-			contacts.add((Contact)(o));
-		}
+    	List <Contact> contacts = new ArrayList<Contact>();
+    	super.doTransaction();
+    	contacts = super.getSession().createQuery("select distinct contact from Contact contact left join fetch contact.phoneNumbers phone").list();
 		super.endTransaction();
     	return contacts;
     }

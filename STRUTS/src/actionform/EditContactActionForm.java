@@ -1,7 +1,9 @@
 package actionform;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,13 +12,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 
-import domain.Adress;
+import domain.Adresse;
 import domain.Contact;
 import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
 import domain.PhoneNumber;
+import service.GroupService;
 
 public class EditContactActionForm extends ActionForm
 {
@@ -31,8 +34,9 @@ public class EditContactActionForm extends ActionForm
 	private String email = null;
 	
 	/* PhoneNumber */
-	private String phoneKind = null;
-	private String phoneNumber = null;
+	private String[] phoneKind = null;
+	private String[] phoneNumber = null;
+	private String[] phoneId = null;
 	
 	/* Entreprise */
 	private String entreprise = null;
@@ -48,8 +52,10 @@ public class EditContactActionForm extends ActionForm
 	private List<Group> listGroups;
 	private String[] groups;
 	
-	private String idPhone = null;
+	private String[] idPhone = null;
 	private String idAdress = null;
+	
+	private GroupService groupeService;
 
 	public EditContactActionForm() 
 	{
@@ -69,11 +75,11 @@ public class EditContactActionForm extends ActionForm
 		this.idAdress = idAdress;
 	}
 
-	public String getIdPhone() {
+	public String[] getIdPhone() {
 		return idPhone;
 	}
 
-	public void setIdPhone(String idPhone) {
+	public void setIdPhone(String[] idPhone) {
 		this.idPhone = idPhone;
 	}
 	
@@ -93,19 +99,19 @@ public class EditContactActionForm extends ActionForm
 		this.groups = groups;
 	}
 
-	public String getPhoneKind() {
+	public String[] getPhoneKind() {
 		return phoneKind;
 	}
 	
-	public void setPhoneKind(String phoneKind) {
+	public void setPhoneKind(String[] phoneKind) {
 		this.phoneKind = phoneKind;
 	}
 
-	public String getPhoneNumber() {
+	public String[] getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(String[] phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -199,18 +205,7 @@ public class EditContactActionForm extends ActionForm
 		if (this.email == null || this.email.length() < 5 || this.email.length() > 75)
 		{
 			errors.add("email", new ActionMessage("form.contact.email.error"));
-		}
-		
-		/* PhoneNumber */
-		if ((this.phoneKind != "" && this.phoneKind.length() < 3) || this.phoneKind.length() > 10)
-		{
-			errors.add("phoneKind", new ActionMessage("form.contact.phoneKind.error.size"));
-		}
-		if ((this.phoneNumber != "" && this.phoneNumber.length() < 10) || this.phoneKind.length() > 15)
-		{
-			errors.add("phoneNumber", new ActionMessage("form.contact.phoneNumber.error.size"));
-		}
-		
+		}		
 		/* Adress */
 		if ((this.street != "" && this.street.length() < 1) || this.street.length() > 100)
 		{
@@ -231,27 +226,17 @@ public class EditContactActionForm extends ActionForm
 		
 		if(!errors.isEmpty()) 
 		{
-			System.out.println(this.entreprise);
-			PhoneNumber phone = new PhoneNumber(Integer.parseInt(this.idPhone), this.phoneKind, this.phoneNumber);
-			Adress adress = new Adress(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
-			Entreprise oEntreprise;
-			try
-			{
-				oEntreprise = new Entreprise(Integer.parseInt(this.entreprise));
+			Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
+			for(int i=0;i<this.phoneKind.length;i++) {
+				phoneNumbers.add(new PhoneNumber(this.phoneKind[i],this.phoneNumber[i]));
 			}
-			catch (Exception e)
-			{
-				oEntreprise = new Entreprise(-1);
-			}
-			List<Group> contactGroup = new ArrayList<Group>();
+			Adresse adress = new Adresse(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
+			Set<Group> contactGroup = new HashSet<Group>();
 			for (String idGroup : this.groups)
 			{
 				contactGroup.add(new Group(Integer.parseInt(idGroup)));
 			}
-			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phone, oEntreprise, contactGroup);
-			request.setAttribute("contact", contact);
-			request.setAttribute("entreprises", this.entreprises);
-            request.setAttribute("listGroups", this.listGroups);
+			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phoneNumbers, contactGroup);
         }
 		return errors;
 	}

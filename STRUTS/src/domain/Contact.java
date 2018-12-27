@@ -1,21 +1,27 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-	public class Contact extends Entreprise {
-
+	public class Contact implements Serializable {
+		
+		//private static final long serialVersionUID = 1L;
+		public int id;
 		public String lastName;
 		public String firstName;
 		public String email;
-		public Adress adress;
+		public Adresse adress;
 		public Set<Group> groups;
 		public Set<PhoneNumber> phoneNumbers;
-
-		public Contact(int id, String lastName, String firstName, String email, Adress adress, String numSiret, String companyName, Set<Group> groups, Set<PhoneNumber> phoneNumbers) 
+		private int version;
+		
+		public Contact () {};
+		
+		public Contact(int id, String lastName, String firstName, String email, Adresse adress, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
 		{
-			super(id, numSiret, companyName);
+			this.id = id;
 			this.lastName = lastName;
 			this.firstName = firstName;
 			this.email = email;
@@ -24,15 +30,14 @@ import java.util.Set;
 			this.groups = groups;
 		}
 		
-		public Contact(String lastName, String firstName, String email, Adress adress, String numSiret, String companyName, Set<Group> groups, Set<PhoneNumber> phoneNumbers) 
+		public Contact(String lastName, String firstName, String email, Adresse adress, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
 		{
-			super(numSiret, companyName);
 			this.lastName = lastName;
 			this.firstName = firstName;
 			this.email = email;
 			this.adress = adress;
-			this.groups = groups;
 			this.phoneNumbers = phoneNumbers;
+			this.groups = groups;
 		}
 		
 		public Set<Group> getGroups() {
@@ -67,11 +72,19 @@ import java.util.Set;
 			phoneNumbers.remove(phoneNumber);
 		}
 		
-		public Adress getAdress() {
+		public int getId() {
+			return id;
+		}
+		
+		public void setId(int id) {
+			this.id = id;
+		}
+		
+		public Adresse getAdresse() {
 			return adress;
 		}
 
-		public void setAdress(Adress adress) {
+		public void setAdresse(Adresse adress) {
 			this.adress = adress;
 		}
 
@@ -97,6 +110,14 @@ import java.util.Set;
 
 		public void setEmail(String email) {
 			this.email = email;
+		}
+		
+		public int getVersion () {
+			return this.version;
+		}
+		
+		public void setVersion (int version) {
+			this.version = version;
 		}
 		
 		@Override

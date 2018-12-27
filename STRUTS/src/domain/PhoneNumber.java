@@ -6,27 +6,16 @@ public class PhoneNumber
 	public int id;
 	public String phoneKind;
 	public String phoneNumber;
-	
-	public PhoneNumber(int id, String phoneKind, String phoneNumber)
-	{
-		this.id = id;
-		this.phoneKind = phoneKind;
-		this.phoneNumber = phoneNumber;
-	}
+	public Contact contact;
+	private int version;
 	
 	public PhoneNumber(String phoneKind, String phoneNumber)
 	{
-		this.id = -1;
 		this.phoneKind = phoneKind;
 		this.phoneNumber = phoneNumber;
 	}
 	
-	public PhoneNumber(int id)
-	{
-		this.id = id;
-		this.phoneKind = "NULL";
-		this.phoneNumber = "NULL";
-	}
+	public PhoneNumber() {}
 	
 	public int getId() {
 		return id;
@@ -50,6 +39,22 @@ public class PhoneNumber
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public int getVersion () {
+		return this.version;
+	}
+	
+	public void setVersion (int version) {
+		this.version = version;
+	}
+	
+	public Contact getContact() {
+		return this.contact;
+	}
+	
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	
 }

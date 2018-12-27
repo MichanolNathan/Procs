@@ -66,25 +66,6 @@
    				<p><html:errors property="email"/></p>
 			</div>
 		</div>
-		<h4 class="ui dividing header"><bean:message key="form.contact.phone"/></h4>
-		<bean:define id="phoneCanvas" name="contact" property="phoneNumber"/>
-		<input type="hidden" name="idPhone" value="<bean:write name="phoneCanvas" property="id"/>">
-		<div class="fields">
-			<div class="three wide field">
-				<label for="phoneKind"><bean:message key="form.contact.phoneKind.label"/></label>
-				<html:text name="phoneCanvas" property="phoneKind" size="10" maxlength="10" styleId="phoneKind"/>
-				<div class="ui error message">
-	   				<p><html:errors property="phoneKind"/></p>
-				</div>
-			</div>
-			<div class="six wide field">
-				<label for="phoneNumber"><bean:message key="form.contact.phoneNumber.label"/></label>
-				<html:text name="phoneCanvas" property="phoneNumber" size="15" maxlength="15" styleId="phoneNumber"/>
-				<div class="ui error message">
-	   				<p><html:errors property="phoneNumber"/></p>
-				</div>
-			</div>
-		</div>
 		<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
 		<bean:define id="adressCanvas" name="contact" property="adress"/>
 		<input type="hidden" name="idAdress" value="<bean:write name="adressCanvas" property="id"/>">

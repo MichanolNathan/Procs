@@ -4,10 +4,10 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
     <class name="Group" table="Group_Table">
-        <id name="id" type="long" column="id" >
+        <id name="id" type="int" column="id" >
             <generator class="increment"/>
         </id>
-		<version name="version" access="field" column="VERSION"/>
+		<version name="version" column="version"/>
         <property name="groupName" type="string">
             <column name="groupName"/>
         </property>

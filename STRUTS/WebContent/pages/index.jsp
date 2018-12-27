@@ -12,7 +12,6 @@
 <title><bean:message key="title"/></title>
 </head>
 <body>
-
 <div class="ui large menu">
   <a href="/Contact" class="active item"><bean:message key="home"/></a>
   <% if (session.getAttribute("user") != null) { %>

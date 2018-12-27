@@ -23,13 +23,12 @@ public class GroupDAO extends DAO
 	public List<Group> getAllGroups()
     {
 		List <Group> groupList = new ArrayList<Group>();
-
-    		StringBuffer request = new StringBuffer();
-    		request.append("select group from Group group");
-    		Query query = super.getSession().createQuery(request.toString());
-    		for (final Object o : query.list()) {
-    			groupList.add((Group)(o));
-    		}
+		StringBuffer request = new StringBuffer();
+		request.append("select group from Group group");
+    	super.doTransaction();
+		for (final Object o : super.getSession().createCriteria(Group.class).list()) {
+			groupList.add((Group)(o));
+		}
     	super.endTransaction();
     	return groupList;
     }
@@ -49,22 +48,6 @@ public class GroupDAO extends DAO
 			res = "Groupe added to the dataBase";
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
-	
-	public String editGroup(Group group)
-	{
-		String res = null;
-		try 
-		{
-			super.getSession().update(group);
-			super.doTransaction();
-			res = "mise à jour de l'adresse réussie";
-		} 
-		catch (Exception e) 
-		{
 			e.printStackTrace();
 		}
 		return res;

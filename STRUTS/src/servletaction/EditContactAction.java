@@ -1,7 +1,9 @@
 package servletaction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,17 +15,21 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import actionform.EditContactActionForm;
-import domain.Adress;
+import domain.Adresse;
 import domain.AdressDAO;
 import domain.Contact;
 import domain.ContactDAO;
-import domain.ContactGroupDAO;
+import domain.GroupDAO;
 import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
 import domain.PhoneNumber;
 import domain.PhoneNumberDAO;
+import service.AdresseService;
+import service.ContactService;
+import service.GroupService;
+import service.PhoneNumberService;
 
 public class EditContactAction extends Action 
 {
@@ -33,97 +39,81 @@ public class EditContactAction extends Action
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
+        
+        final ContactService contactService = new ContactService();
+        final AdresseService adresseService = new AdresseService();
+        final GroupService groupService = new GroupService();
+        final PhoneNumberService phoneService = new PhoneNumberService();
 		
-		final EditContactActionForm lForm = (EditContactActionForm) pForm;
+        final EditContactActionForm lForm = (EditContactActionForm) pForm;
+		
 		/* Contact */
 		final String firstName = lForm.getFirstName();
 		final String lastName = lForm.getLastName();
 		final String email = lForm.getEmail();
 		final int id = Integer.parseInt(lForm.getId());
 		
-		/* PhoneNumber */
-		final String phoneKind = lForm.getPhoneKind();
-		final String phoneNumber = lForm.getPhoneNumber();
-		final int idPhone = Integer.parseInt(lForm.getIdPhone());
-		PhoneNumber phone = new PhoneNumber(idPhone, phoneKind, phoneNumber);
-		
-		/* Adress */
-		final String country = lForm.getCountry();
+		final String street = lForm.getStreet();
 		final String city = lForm.getCity();
 		final String zip = lForm.getZip();
-		final String street = lForm.getStreet();
-
+		final String country = lForm.getCountry();
+		final int idA = Integer.parseInt(lForm.getId());
 		
-		/* Entreprise */
-		final String lentreprise = lForm.getEntreprise();
-		int id_entreprise = -1;
-		try 
-		{
-			id_entreprise = Integer.parseInt(lentreprise);
-		}
-		catch (Exception e) {}
+		final String[] idPhone = lForm.getIdPhone();
+		final String[] phoneKind = lForm.getPhoneKind();
+		final String[] phoneNumber = lForm.getPhoneNumber();
 		
-final int idAdress = Integer.parseInt(lForm.getIdAdress());
-		Adress adress = new Adress(idAdress, street, city, zip, country);
+		final String[] groups = lForm.getGroups();
 		
-		/* Entreprise */
-		int idEntreprise = -1;
-		try
-		{
-			idEntreprise = Integer.parseInt(lForm.getEntreprise());
-		}
-		catch (Exception e) {}
-		Entreprise entreprise = new Entreprise(idEntreprise);
-
-		/* Group */
-		final String[] lgroups = lForm.getGroups();
-		List<Group> listContactGroup = new ArrayList<Group>();
-		
-		if (lgroups != null)
-		{
-			for (String group : lgroups)
-			{
-				try 
-				{
-					int id_group = Integer.parseInt(group);
-					listContactGroup.add(new Group(id_group));
+		Set<PhoneNumber> phones = new HashSet<>();
+		if (phoneKind.length == phoneNumber.length && phoneKind.length == idPhone.length) {
+			for (int i=0; i<phoneKind.length; i++) {
+				if (phoneKind[i] != "" && phoneNumber[i] != "") {
+					PhoneNumber ph;
+					if (Integer.parseInt(idPhone[i]) != 0) {
+						ph = phoneService.getPhoneNumber(Integer.parseInt(idPhone[i]));
+						ph.setPhoneKind(phoneKind[i]);
+						ph.setPhoneNumber(phoneNumber[i]);
+					} else {
+						ph = new PhoneNumber(phoneKind[i], phoneNumber[i]);
+					}
+					phones.add(ph);
 				}
-				catch (Exception e) {}
 			}
 		}
 		
-		Contact contact = new Contact(id, firstName, lastName, email, adress, phone, entreprise, listContactGroup);
-		return pMapping.findForward("error");
-		/*try
-		{
-			String lError;
-			final ContactDAO lContactDAO = new ContactDAO();
-			AdressDAO adressDAO = new AdressDAO();
-			PhoneNumberDAO phoneNumberDAO = new PhoneNumberDAO();
-			
-			lError = phoneNumberDAO.editPhoneNumber(phone);
-			lError = adressDAO.editAdress(adress);
-			lError = lContactDAO.editContact(contact);
-			
-			lError = lContactDAO.editContact(contact);
-			ContactGroupDAO cgDAO = new ContactGroupDAO();
-			cgDAO.removeContactGroup(contact);
-			for (Group g : contact.groups)
-			{
-				String result = cgDAO.addContactGroup(contact.getId(), g.getId());
+		Set<Group> contactGroups = new HashSet<Group>();
+		if (groups != null) {
+			for (String group : groups) {
+				try {
+					int idGroup = Integer.parseInt(group);
+					Group g = groupService.getGroup(idGroup);
+					contactGroups.add(g);
+				} catch (Exception e) { }
 			}
-			return pMapping.findForward("success");
 		}
-		catch (Exception e)
-		{
-			final EntrepriseDAO lEntrepriseDAO = new EntrepriseDAO();
-			List<Entreprise> entreprises = lEntrepriseDAO.getAllEntreprises();
-			pRequest.setAttribute("entreprises", entreprises);
-			final GroupDAO lGroupDAO = new GroupDAO();
-			List<Group> listGroups = lGroupDAO.getAllGroups();
-			pRequest.setAttribute("listGroups", listGroups);
-			pRequest.setAttribute("contact", contact);
+		
+		Contact contact = contactService.getContact(id);
+		contact.setFirstName(firstName);
+		contact.setLastName(lastName);
+		contact.setEmail(email);
+		
+		Adresse adresse = adresseService.getAdresse(idA);
+		adresse.setStreet(street);
+		adresse.setCity(city);
+		adresse.setZip(zip);
+		adresse.setCountry(country);
+		
+		contact.setAdresse(adresse);
+		contact.setPhoneNumbers(phones);
+		contact.setGroups(contactGroups);
+		
+		try {
+			contactService.editContact(contact);
+			return pMapping.findForward("success");
+		} catch (Exception e) {
+			System.out.println(e);
 			return pMapping.findForward("error");
-		}*/
+		}
 	}
 }

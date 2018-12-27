@@ -26,8 +26,7 @@ public class ListContactAction extends Action
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
-
-        Set <Contact> contacts = contactService.getAllContacts();
+        List <Contact> contacts = contactService.getAllContacts();
 		pRequest.setAttribute("contacts", contacts);
 		
 		return pMapping.findForward("listContacts");

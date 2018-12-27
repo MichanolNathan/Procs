@@ -10,7 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 
-import domain.Adress;
+import domain.Adresse;
 import domain.Contact;
 import domain.Entreprise;
 import domain.Group;

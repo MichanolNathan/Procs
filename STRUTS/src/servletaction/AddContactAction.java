@@ -1,7 +1,7 @@
 package servletaction;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,129 +11,88 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.AddContactActionForm;
-import domain.Adress;
-import domain.AdressDAO;
+import domain.Adresse;
 import domain.Contact;
-import domain.ContactDAO;
-import service.*;
-import domain.Entreprise;
-import domain.EntrepriseDAO;
 import domain.Group;
-import domain.GroupDAO;
 import domain.PhoneNumber;
-import domain.PhoneNumberDAO;
+import service.AdresseService;
+import service.ContactService;
+import service.GroupService;
 
-public class AddContactAction extends Action 
-{
-	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest, final HttpServletResponse pResponse)
-	{
+public class AddContactAction extends Action {
+	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
 		
-		PhoneNumberService phoneService = new PhoneNumberService();
-		AdresseService adresseService = new AdresseService();
-		EntrepriseService entrepriseService = new EntrepriseService();
 		HttpSession session = pRequest.getSession();
-		
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
         
+        //ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //final ContactService contactService = (ContactService) context.getBean("contactService");
+        //final AdresseService adresseService = (AdresseService) context.getBean("adresseService");
+        final ContactService contactService = new ContactService();
+        final AdresseService adresseService = new AdresseService();
+        final GroupService groupService = new GroupService();
+        		
 		final AddContactActionForm lForm = (AddContactActionForm) pForm;
+		
 		/* Contact */
 		final String firstName = lForm.getFirstName();
 		final String lastName = lForm.getLastName();
 		final String email = lForm.getEmail();
 		
-		/* PhoneNumber */
-		final String phoneKind = lForm.getPhoneKind();
-		final String phoneNumber = lForm.getPhoneNumber();
-		PhoneNumber phone = new PhoneNumber(phoneKind, phoneNumber);
-
-		phoneService.addPhoneNumber(phone);
-		//String sIdPhoneNumber = phoneNumberDAO.addPhoneNumber(phone);
-		/*int idPhoneNumber = -1;
-		try
-		{
-			idPhoneNumber = Integer.parseInt(sIdPhoneNumber);
-		}
-		catch(Exception e) {}
-		phone.setId(idPhoneNumber);
-		*/
-		/* Adress */
-		final String country = lForm.getCountry();
+		final String street = lForm.getStreet();
 		final String city = lForm.getCity();
 		final String zip = lForm.getZip();
-		final String street = lForm.getStreet();
-		Adress adress = new Adress(street, city, zip, country);
-		adresseService.addAdress(adress);
-		//AdressDAO adressDAO = new AdressDAO();
-		//String sIdAdress = adressDAO.addAdress(adress);
-		/*int idAdress = -1;
-		try
-		{
-			idAdress = Integer.parseInt(sIdAdress);
-		}
-		catch(Exception e) {}
-		adress.setId(idAdress);*/
+		final String country = lForm.getCountry();
 		
-		/* Entreprise */
-		final String lentreprise = lForm.getEntreprise();
-		int id_entreprise = -1;
-		try 
-		{
-			id_entreprise = Integer.parseInt(lentreprise);
-		}
-		catch (Exception e) {}
+		/*final String phoneKind1 = lForm.getPhoneKind1();
+		final String phoneNumber1 = lForm.getPhoneNumber1();
+		final String phoneKind2 = lForm.getPhoneKind2();
+		final String phoneNumber2 = lForm.getPhoneNumber2();
+		final String phoneKind3 = lForm.getPhoneKind3();
+		final String phoneNumber3 = lForm.getPhoneNumber3();*/
 		
-		Entreprise entreprise = new Entreprise(id_entreprise);
-
-		/* Group */
-		final String[] lgroups = lForm.getGroups();
-		List<Group> listContactGroup = new ArrayList<Group>();
+		final String[] groups = lForm.getGroups();
 		
-		if (lgroups != null)
-		{
-			for (String group : lgroups)
-			{
-				try 
-				{
-					System.out.println(group);
-					int id_group = Integer.parseInt(group);
-					listContactGroup.add(new Group(id_group));
-				}
-				catch (Exception e) {}
-			}
+		Set<Group> contactGroups = new HashSet<>();
+		Set<PhoneNumber> phones = new HashSet<>();
+		
+		/*if (phoneKind1 != "" && phoneNumber1 != "") {
+			PhoneNumber phone1 = new PhoneNumber(phoneKind1, phoneNumber1);
+			phones.add(phone1);
 		}
 		
-		Contact contact = new Contact(firstName, lastName, email, adress, phone, entreprise, listContactGroup);
-		return pMapping.findForward("success");
-		//final ContactDAO lContactDAO = new ContactDAO();
-		//final String idContact = lContactDAO.addContact(contact);
-		/*try
-		{
-			System.out.println(idContact);
-			int r = Integer.parseInt(idContact);
-			contact.setId(r);
-			ContactGroupDAO cgDAO = new ContactGroupDAO();
-			cgDAO.removeContactGroup(contact);
-			for (Group g : contact.groups)
-			{
-				System.out.println(g.getId());
-				String result = cgDAO.addContactGroup(contact.getId(), g.getId());
-				System.out.println(result);
-			}
-			return pMapping.findForward("success");
+		if (phoneKind2 != "" && phoneNumber2 != "") {
+			PhoneNumber phone2 = new PhoneNumber(phoneKind2, phoneNumber2);
+			phones.add(phone2);
 		}
-		catch (Exception e)
-		{
-			final EntrepriseDAO lEntrepriseDAO = new EntrepriseDAO();
-			List<Entreprise> entreprises = lEntrepriseDAO.getAllEntreprises();
-			pRequest.setAttribute("entreprises", entreprises);
-			final GroupDAO lGroupDAO = new GroupDAO();
-			List<Group> listGroups = lGroupDAO.getAllGroups();
-			pRequest.setAttribute("listGroups", listGroups);
-			return pMapping.findForward("error");
+		
+		if (phoneKind3 != "" && phoneNumber3 != "") {
+			PhoneNumber phone3 = new PhoneNumber(phoneKind3, phoneNumber3);
+			phones.add(phone3);
 		}*/
+		
+		if (groups != null) {
+			for (String group : groups) {
+				try {
+					int idGroup = Integer.parseInt(group);
+					Group g = groupService.getGroup(idGroup);
+					contactGroups.add(g);
+				} catch (Exception e) { }
+			}
+		}
+		
+		Adresse adresse = new Adresse(street, city, zip, country);
+		adresseService.addAdress(adresse);
+		
+		Contact contact = new Contact(lastName, firstName, email, adresse, phones, contactGroups);
+
+		contactService.addContact(contact);
+		return pMapping.findForward("success");
 	}
 }

@@ -90,19 +90,7 @@
 					</div>
 					<div class="sixteen wide column">
 						<p><span style="font-weight: bold;"><bean:message key="form.contact.email.label"/></span>: <bean:write name="contact" property="email"/></p>
-					</div>
-					
-					<div class="sixteen wide column">
-						<h4 class="ui dividing header"><bean:message key="form.contact.phone"/></h4>
-						<bean:define id="phoneNumberCanvas" name="contact" property="phoneNumber"/>
-					</div>
-					<div class="eight wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.phoneKind.label"/></span>: <bean:write name="phoneNumberCanvas" property="phoneKind"/></p>
-					</div>
-					<div class="eight wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.phoneNumber.label"/></span>: <bean:write name="phoneNumberCanvas" property="phoneNumber"/></p>
-					</div>
-					
+					</div>					
 					<div class="sixteen wide column">
 						<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
 						<bean:define id="adressCanvas" name="contact" property="adress"/>

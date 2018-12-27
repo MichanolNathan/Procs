@@ -8,6 +8,8 @@ import domain.EntrepriseDAO;
 
 public class EntrepriseService {
 	
+	public EntrepriseService() {};
+	
 	EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
 
 	

@@ -7,6 +7,8 @@ import domain.GroupDAO;
 
 public class GroupService {
 	
+	public GroupService() {};
+	
 	private GroupDAO groupDao = new GroupDAO();
 	
 	public List<Group> getAllGroups () {
@@ -21,7 +23,7 @@ public class GroupService {
 		return this.groupDao.addGroup(group);
 	}
 	
-	public String editGroup (Group group) {
+	/*public String editGroup (Group group) {
 		return this.groupDao.editGroup(group);
-	}
+	}*/
 }
