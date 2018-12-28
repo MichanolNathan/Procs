@@ -52,6 +52,11 @@
 	  <i class="plus icon"></i>
 	  <bean:message key="form.contact.add.new"/>
 	</a>
+	<a style="margin-bottom: 2%;"class="ui labeled icon button" href="Populate.do" >
+	 <i class="plus icon"></i>
+	Creer groupe
+	 <i class="plus icon"></i>	
+	</a>
 	<table id="contactTable" class="ui celled padded table">
 		<thead>
 			<tr>

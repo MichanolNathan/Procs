@@ -43,6 +43,10 @@
 		<property name="id" value="3" />
 		<property name="groupName" value="Friends" />
 	</bean>
+		<bean id="Perso" class="domain.Group">
+		<property name="id" value="4" />
+		<property name="groupName" value="Perso" />
+	</bean>
 	<!--
 	<bean id="addContact1" class="models.Contact">
 		<property name="id" />

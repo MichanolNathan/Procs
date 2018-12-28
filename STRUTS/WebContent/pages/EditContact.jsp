@@ -125,7 +125,7 @@
 		<bean:define id="contactGroups" name="contact" property="groups"/>
 		<div class="six wide field">
 			<html:select property="groups" multiple="" styleClass="ui fluid dropdown">
-				<html:optionsCollection name="listGroups" value="id" label="name"/>
+				<html:optionsCollection name="listGroups" value="id" label="groupName"/>
 			</html:select>
 			<div class="ui error message">
    				<p><html:errors property="groups"/></p>

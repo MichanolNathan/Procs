@@ -8,6 +8,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.AddContactActionForm;
 import domain.Adresse;
@@ -24,44 +26,26 @@ import service.PhoneNumberService;
 public class RemoveContactAction extends Action 
 {
 	public ActionForward execute(final ActionMapping pMapping, ActionForm pForm, final HttpServletRequest pRequest, final HttpServletResponse pResponse)
-	{
-		
-		PhoneNumberService phoneService = new PhoneNumberService();
-		AdresseService adresseService = new AdresseService();
-		EntrepriseService entrepriseService = new EntrepriseService();
-		ContactService contactService = new ContactService();
-		
+	{		
 		HttpSession session = pRequest.getSession();
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
-        
+   
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ContactService contactService = (ContactService) context.getBean("contactService");
+		
+
 		int id = -1;
 		try
 		{
 			id = Integer.parseInt(pRequest.getParameter("id"));
+			Contact contact = contactService.getContact(id);
+			contactService.removeContact(contact);
 		}
-		catch (Exception e) {}
-		String lError;
-		
-		
-		/*final ContactDAO lContactDAO = new ContactDAO();
-		final Contact contact = lContactDAO.getContact(id);
-		final PhoneNumber phoneNumber = new PhoneNumber(contact.phoneNumber.id);
-		final Adress adress = new Adress(contact.adress.id);
-		final ContactGroupDAO cgDAO = new ContactGroupDAO();
-		final PhoneNumberDAO phoneNumberDAO = new PhoneNumberDAO();
-		final AdressDAO adressDAO = new AdressDAO();*/
-		
-		/*lError = cgDAO.removeContactGroup(contact);
-		lError = phoneNumberDAO.removePhoneNumber(contact.phoneNumber);
-		lError = adressDAO.removeAdress(contact.adress);
-		lError = lContactDAO.removeContact(contact);*/
-		
-		/*if (lError != null)
-		{
-			pRequest.setAttribute("error", "Error");
-		}*/
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return pMapping.findForward("end");
 	}
 }

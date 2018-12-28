@@ -25,19 +25,23 @@ public class GetDummyDataAction extends Action {
 		if (session.getAttribute("user")==null) {
 			return pMapping.findForward("connection");
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext("applicatonContext.xml");
-		final GroupService groupeService = (GroupService) context.getBean("groupeService");
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		final GroupService groupService = (GroupService) context.getBean("groupService");
 		final ContactService contactService = (ContactService) context.getBean("contactService");
         
 		Group work = (Group) context.getBean("FamilyGroup");
         Group family = (Group) context.getBean("WorkGroup");
         Group friends = (Group) context.getBean("FriendsGroup");
+        Group perso = (Group) context.getBean("Perso");
+
         
-        groupeService.addGroup(work);
-        groupeService.addGroup(family);
-        groupeService.addGroup(friends);
+        groupService.addGroup(work);
+        groupService.addGroup(family);
+        groupService.addGroup(friends);
+        groupService.addGroup(perso);
+
         
-        List<Group> groups = groupeService.getAllGroups();
+        List<Group> groups = groupService.getAllGroups();
         List<Contact> contacts = contactService.getAllContacts();
        
 		pRequest.setAttribute("contacts", contacts);
