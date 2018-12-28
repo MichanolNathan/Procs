@@ -82,8 +82,11 @@ public class ContactDAO extends DAO
 	
 	public Contact getContact(int id) 
 	{
+		Contact contact = null;
 		super.doTransaction();
-		return (Contact) super.getSession().get(Contact.class, id);
+		contact = (Contact) super.getSession().get(Contact.class, id);
+		super.endTransaction();
+		return contact;
 	}
 
 }

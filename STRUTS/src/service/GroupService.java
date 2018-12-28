@@ -9,21 +9,21 @@ public class GroupService {
 	
 	public GroupService() {};
 	
-	private GroupDAO groupDao = new GroupDAO();
+	private GroupDAO groupDAO;
+	
+	public void setGroupDAO(GroupDAO groupDAO) {
+		this.groupDAO = groupDAO;
+	}
 	
 	public List<Group> getAllGroups () {
-		return this.groupDao.getAllGroups();
+		return this.groupDAO.getAllGroups();
 	}
 	
 	public Group getGroup (int id) {
-		return this.groupDao.getGroup(id);
+		return this.groupDAO.getGroup(id);
 	}
 	
 	public String addGroup (Group group) {
-		return this.groupDao.addGroup(group);
+		return this.groupDAO.addGroup(group);
 	}
-	
-	/*public String editGroup (Group group) {
-		return this.groupDao.editGroup(group);
-	}*/
 }

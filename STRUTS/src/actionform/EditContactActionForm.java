@@ -11,6 +11,8 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import domain.Adresse;
 import domain.Contact;
@@ -51,13 +53,13 @@ public class EditContactActionForm extends ActionForm
 	private String[] idPhone = null;
 	private String idAdress = null;
 	
-	private GroupService groupeService;
+	private GroupService groupService;
 
 	public EditContactActionForm() 
 	{
-		super();
-		GroupDAO lGroupDAO = new GroupDAO();
-		this.listGroups = lGroupDAO.getAllGroups();
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		groupService = (GroupService) context.getBean("groupService");
+		this.listGroups = groupService.getAllGroups();
 	}
 	
 	public String getIdAdress() {

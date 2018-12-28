@@ -11,29 +11,31 @@ import domain.PhoneNumberDAO;
 
 public class ContactService {
 	
-	PhoneNumberDAO daoPhone = new PhoneNumberDAO();
-	ContactDAO contactDao = new ContactDAO();
-	EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
-	AdressDAO addresseDao = new AdressDAO();
-	
+	ContactDAO contactDAO = new ContactDAO();
+
 	public ContactService() {};
+	
+	public void setContactDAO(ContactDAO contactDAO) {
+		this.contactDAO = contactDAO;
+	}
+	
 	public String addContact (Contact contact) {
-		return this.contactDao.addContact(contact);
+		return this.contactDAO.addContact(contact);
 	}
 	
 	public String editContact (Contact contact) {
-		return this.contactDao.editContact(contact);
+		return this.contactDAO.editContact(contact);
 	}
 	
 	public Contact getContact(int id) {
-		return this.contactDao.getContact(id);
+		return this.contactDAO.getContact(id);
 	}
     public List<Contact> getAllContacts() {
-    	return this.contactDao.getAllContacts();
+    	return this.contactDAO.getAllContacts();
     }
     
     public String removeContact(Contact contact) {
-    	return this.contactDao.removeContact(contact);
+    	return this.contactDAO.removeContact(contact);
     }
 
 	

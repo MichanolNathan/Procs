@@ -10,12 +10,17 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
+import service.AdresseService;
+import service.ContactService;
 import service.GroupService;
+import service.PhoneNumberService;
 
 public class InfoContactForm extends Action 
 {
@@ -26,8 +31,9 @@ public class InfoContactForm extends Action
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
-		GroupService groupeService = new GroupService();
-		List<Group> groups = groupeService.getAllGroups();
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        final GroupService groupService = (GroupService) context.getBean("groupService");
+		List<Group> groups = groupService.getAllGroups();
 		pRequest.setAttribute("listGroups", groups);
 		
 		return pMapping.findForward("addContact");

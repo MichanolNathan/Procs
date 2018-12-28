@@ -13,6 +13,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.EditContactActionForm;
 import domain.Adresse;
@@ -40,10 +42,11 @@ public class EditContactAction extends Action
             return pMapping.findForward("connection");
         }
         
-        final ContactService contactService = new ContactService();
-        final AdresseService adresseService = new AdresseService();
-        final GroupService groupService = new GroupService();
-        final PhoneNumberService phoneService = new PhoneNumberService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        final ContactService contactService = (ContactService) context.getBean("contactService");
+        final AdresseService adressService = (AdresseService) context.getBean("adressService");
+        final PhoneNumberService phoneNumberService = (PhoneNumberService) context.getBean("phoneNumberService");
+        final GroupService groupService = (GroupService) context.getBean("groupService");
 		
         final EditContactActionForm lForm = (EditContactActionForm) pForm;
 		
@@ -71,7 +74,7 @@ public class EditContactAction extends Action
 				if (phoneKind[i] != "" && phoneNumber[i] != "") {
 					PhoneNumber ph;
 					if (Integer.parseInt(idPhone[i]) != 0) {
-						ph = phoneService.getPhoneNumber(Integer.parseInt(idPhone[i]));
+						ph = phoneNumberService.getPhoneNumber(Integer.parseInt(idPhone[i]));
 						ph.setPhoneKind(phoneKind[i]);
 						ph.setPhoneNumber(phoneNumber[i]);
 					} else {
@@ -98,7 +101,7 @@ public class EditContactAction extends Action
 		contact.setLastName(lastName);
 		contact.setEmail(email);
 		
-		Adresse adresse = adresseService.getAdresse(idA);
+		Adresse adresse = adressService.getAdresse(idA);
 		adresse.setStreet(street);
 		adresse.setCity(city);
 		adresse.setZip(zip);

@@ -11,6 +11,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import domain.Contact;
 import domain.ContactDAO;
@@ -19,8 +21,10 @@ import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
 import domain.PhoneNumber;
+import service.AdresseService;
 import service.ContactService;
 import service.GroupService;
+import service.PhoneNumberService;
 
 public class InfoContactEditionForm extends Action 
 {
@@ -33,10 +37,11 @@ public class InfoContactEditionForm extends Action
         }
         String stringId = pRequest.getParameter("cid");
         int id = Integer.parseInt(stringId);
-        ContactService contactService = new ContactService();
-        GroupService groupeService = new GroupService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        final ContactService contactService = (ContactService) context.getBean("contactService");
+        final GroupService groupService = (GroupService) context.getBean("groupService");
         Contact contact = contactService.getContact(id);
-		List<Group> listGroups = groupeService.getAllGroups();
+		List<Group> listGroups = groupService.getAllGroups();
 		
 		Set<PhoneNumber> phones = contact.getPhoneNumbers();
 		if (phones.size() == 2) {

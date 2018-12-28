@@ -1,26 +1,27 @@
 package service;
 
 import domain.Adresse;
+import domain.ContactDAO;
 import domain.AdressDAO;
 
 public class AdresseService {
 	
-	AdressDAO addresseDao = new AdressDAO();
+	private AdressDAO adressDAO = new AdressDAO();
 	
 	public AdresseService() {};
+	
+	public void setAdressDAO(AdressDAO adressDAO) {
+		this.adressDAO = adressDAO;
+	}
 	public String addAdress(Adresse adresse) {
-		return this.addresseDao.addAdresse(adresse);
+		return this.adressDAO.addAdresse(adresse);
 	}
 	
-	/*public String editAdresse (Adresse adresse) {
-		return this.addresseDao.editAdress(adresse);
-	}*/
-	
 	public Adresse getAdresse (int id) {
-		return this.addresseDao.getAdresse(id);
+		return this.adressDAO.getAdresse(id);
 	}
 	
 	public String removeAdresse (Adresse adresse) {
-		return this.addresseDao.removeAdresse(adresse);
+		return this.adressDAO.removeAdresse(adresse);
 	}
 }

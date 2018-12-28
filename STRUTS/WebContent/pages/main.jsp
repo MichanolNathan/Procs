@@ -93,20 +93,29 @@
 					</div>					
 					<div class="sixteen wide column">
 						<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
-						<bean:define id="adressCanvas" name="contact" property="adresse"/>
+						<bean:define id="adresse" name="contact" property="adresse"/>
 					</div>
 					<div class="eight wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.country.label"/></span>: <bean:write name="adressCanvas" property="country"/></p>
+						<p><span style="font-weight: bold;"><bean:message key="form.contact.country.label"/></span>: <bean:write name="adresse" property="country"/></p>
 					</div>
 					<div class="eight wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.city.label"/></span>: <bean:write name="adressCanvas" property="city"/></p>
+						<p><span style="font-weight: bold;"><bean:message key="form.contact.city.label"/></span>: <bean:write name="adresse" property="city"/></p>
 					</div>
 					<div class="three wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.zip.label"/></span>: <bean:write name="adressCanvas" property="zip"/></p>
+						<p><span style="font-weight: bold;"><bean:message key="form.contact.zip.label"/></span>: <bean:write name="adresse" property="zip"/></p>
 					</div>
 					<div class="thirteen wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.street.label"/></span>: <bean:write name="adressCanvas" property="street"/></p>
+						<p><span style="font-weight: bold;"><bean:message key="form.contact.street.label"/></span>: <bean:write name="adresse" property="street"/></p>
 					</div>
+					<bean:define id="phoneNumbers" name="contact" property="phoneNumbers"/>
+					<logic:iterate name="phoneNumbers" id="phoneNumber">
+						<div class="eight wide column">
+							<p><span style="font-weight: bold;"><bean:message key="form.contact.phoneKind.label"/></span>: <bean:write name="phoneNumber" property="phoneKind"/></p>
+						</div>
+						<div class="eight wide column">
+							<p><span style="font-weight: bold;"><bean:message key="form.contact.phoneNumber.label"/></span>: <bean:write name="phoneNumber" property="phoneNumber"/></p>
+						</div>
+				   </logic:iterate>
 				</div>
 	  		</div>
 		</div>

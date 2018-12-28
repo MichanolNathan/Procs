@@ -13,6 +13,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 //import org.springframework.context.ApplicationContext;
 //import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.AddContactActionForm;
 import domain.Adresse;
@@ -31,12 +33,10 @@ public class AddContactAction extends Action {
             return pMapping.findForward("connection");
         }
         
-        //ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        //final ContactService contactService = (ContactService) context.getBean("contactService");
-        //final AdresseService adresseService = (AdresseService) context.getBean("adresseService");
-        final ContactService contactService = new ContactService();
-        final AdresseService adresseService = new AdresseService();
-        final GroupService groupService = new GroupService();
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        final ContactService contactService = (ContactService) context.getBean("contactService");
+        final AdresseService adressService = (AdresseService) context.getBean("adressService");
+        final GroupService groupService = (GroupService) context.getBean("groupService");
         		
 		final AddContactActionForm lForm = (AddContactActionForm) pForm;
 		
@@ -50,32 +50,32 @@ public class AddContactAction extends Action {
 		final String zip = lForm.getZip();
 		final String country = lForm.getCountry();
 		
-		/*final String phoneKind1 = lForm.getPhoneKind1();
+		final String phoneKind1 = lForm.getPhoneKind1();
 		final String phoneNumber1 = lForm.getPhoneNumber1();
 		final String phoneKind2 = lForm.getPhoneKind2();
 		final String phoneNumber2 = lForm.getPhoneNumber2();
 		final String phoneKind3 = lForm.getPhoneKind3();
-		final String phoneNumber3 = lForm.getPhoneNumber3();*/
+		final String phoneNumber3 = lForm.getPhoneNumber3();
 		
 		final String[] groups = lForm.getGroups();
 		
 		Set<Group> contactGroups = new HashSet<>();
 		Set<PhoneNumber> phoneNumbers = new HashSet<>();
 		
-		/*if (phoneKind1 != "" && phoneNumber1 != "") {
+		if (phoneKind1 != "" && phoneNumber1 != "") {
 			PhoneNumber phone1 = new PhoneNumber(phoneKind1, phoneNumber1);
-			phones.add(phone1);
+			phoneNumbers.add(phone1);
 		}
 		
 		if (phoneKind2 != "" && phoneNumber2 != "") {
 			PhoneNumber phone2 = new PhoneNumber(phoneKind2, phoneNumber2);
-			phones.add(phone2);
+			phoneNumbers.add(phone2);
 		}
 		
 		if (phoneKind3 != "" && phoneNumber3 != "") {
 			PhoneNumber phone3 = new PhoneNumber(phoneKind3, phoneNumber3);
-			phones.add(phone3);
-		}*/
+			phoneNumbers.add(phone3);
+		}
 		
 		if (groups != null) {
 			for (String group : groups) {
@@ -88,7 +88,7 @@ public class AddContactAction extends Action {
 		}
 		
 		Adresse adresse = new Adresse(street, city, zip, country);
-		adresseService.addAdress(adresse);
+		adressService.addAdress(adresse);
 		
 		Contact contact = new Contact(lastName, firstName, email, adresse, phoneNumbers, contactGroups);
 
