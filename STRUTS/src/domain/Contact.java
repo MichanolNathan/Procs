@@ -7,35 +7,35 @@ import java.util.Set;
 
 	public class Contact implements Serializable {
 		
-		//private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 		public int id;
 		public String lastName;
 		public String firstName;
 		public String email;
-		public Adresse adress;
+		public Adresse adresse;
 		public Set<Group> groups;
 		public Set<PhoneNumber> phoneNumbers;
 		private int version;
 		
 		public Contact () {};
 		
-		public Contact(int id, String lastName, String firstName, String email, Adresse adress, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
+		public Contact(int id, String lastName, String firstName, String email, Adresse adresse, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
 		{
 			this.id = id;
 			this.lastName = lastName;
 			this.firstName = firstName;
 			this.email = email;
-			this.adress = adress;
+			this.adresse = adresse;
 			this.phoneNumbers = phoneNumbers;
 			this.groups = groups;
 		}
 		
-		public Contact(String lastName, String firstName, String email, Adresse adress, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
+		public Contact(String lastName, String firstName, String email, Adresse adresse, Set<PhoneNumber> phoneNumbers,Set<Group> groups) 
 		{
 			this.lastName = lastName;
 			this.firstName = firstName;
 			this.email = email;
-			this.adress = adress;
+			this.adresse = adresse;
 			this.phoneNumbers = phoneNumbers;
 			this.groups = groups;
 		}
@@ -81,11 +81,11 @@ import java.util.Set;
 		}
 		
 		public Adresse getAdresse() {
-			return adress;
+			return adresse;
 		}
 
 		public void setAdresse(Adresse adress) {
-			this.adress = adress;
+			this.adresse = adress;
 		}
 
 		public String getLastName() {

@@ -38,10 +38,6 @@ public class EditContactActionForm extends ActionForm
 	private String[] phoneNumber = null;
 	private String[] phoneId = null;
 	
-	/* Entreprise */
-	private String entreprise = null;
-	private List entreprises; 
-	
 	/* Adress */
 	private String street = null;
 	private String city = null;
@@ -60,9 +56,6 @@ public class EditContactActionForm extends ActionForm
 	public EditContactActionForm() 
 	{
 		super();
-		EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
-		this.entreprises = entrepriseDAO.getAllEntreprises();
-		
 		GroupDAO lGroupDAO = new GroupDAO();
 		this.listGroups = lGroupDAO.getAllGroups();
 	}
@@ -113,19 +106,6 @@ public class EditContactActionForm extends ActionForm
 
 	public void setPhoneNumber(String[] phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEntreprise() {
-		return entreprise;
-	}
-	
-	public void setEntreprise(String entreprise) 
-	{
-		this.entreprise = entreprise;
-	}
-
-	public void setName(String entreprise) {
-		this.entreprise = entreprise;
 	}
 
 	public String getStreet() {
@@ -237,6 +217,8 @@ public class EditContactActionForm extends ActionForm
 				contactGroup.add(new Group(Integer.parseInt(idGroup)));
 			}
 			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phoneNumbers, contactGroup);
+			request.setAttribute("listGroups", this.listGroups);
+			request.setAttribute("contact", contact);
         }
 		return errors;
 	}

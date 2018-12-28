@@ -60,7 +60,7 @@ public class AddContactAction extends Action {
 		final String[] groups = lForm.getGroups();
 		
 		Set<Group> contactGroups = new HashSet<>();
-		Set<PhoneNumber> phones = new HashSet<>();
+		Set<PhoneNumber> phoneNumbers = new HashSet<>();
 		
 		/*if (phoneKind1 != "" && phoneNumber1 != "") {
 			PhoneNumber phone1 = new PhoneNumber(phoneKind1, phoneNumber1);
@@ -80,8 +80,8 @@ public class AddContactAction extends Action {
 		if (groups != null) {
 			for (String group : groups) {
 				try {
-					int idGroup = Integer.parseInt(group);
-					Group g = groupService.getGroup(idGroup);
+					int id = Integer.parseInt(group);
+					Group g = groupService.getGroup(id);
 					contactGroups.add(g);
 				} catch (Exception e) { }
 			}
@@ -90,7 +90,7 @@ public class AddContactAction extends Action {
 		Adresse adresse = new Adresse(street, city, zip, country);
 		adresseService.addAdress(adresse);
 		
-		Contact contact = new Contact(lastName, firstName, email, adresse, phones, contactGroups);
+		Contact contact = new Contact(lastName, firstName, email, adresse, phoneNumbers, contactGroups);
 
 		contactService.addContact(contact);
 		return pMapping.findForward("success");

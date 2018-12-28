@@ -93,7 +93,7 @@
 					</div>					
 					<div class="sixteen wide column">
 						<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
-						<bean:define id="adressCanvas" name="contact" property="adress"/>
+						<bean:define id="adressCanvas" name="contact" property="adresse"/>
 					</div>
 					<div class="eight wide column">
 						<p><span style="font-weight: bold;"><bean:message key="form.contact.country.label"/></span>: <bean:write name="adressCanvas" property="country"/></p>
@@ -106,18 +106,6 @@
 					</div>
 					<div class="thirteen wide column">
 						<p><span style="font-weight: bold;"><bean:message key="form.contact.street.label"/></span>: <bean:write name="adressCanvas" property="street"/></p>
-					</div>
-					
-					<div class="sixteen wide column">
-						<h4 class="ui dividing header"><bean:message key="form.contact.entreprise"/></h4>
-						<bean:define id="entrepriseCanvas" name="contact" property="entreprise"/>
-					</div>
-					<div class="twelve wide column">
-						<p><span style="font-weight: bold;"><bean:message key="form.contact.entreprise"/></span>: 
-							<logic:greaterThan name="entrepriseCanvas" property="id" value="-1">
-								<bean:write name="entrepriseCanvas" property="name"/>
-							</logic:greaterThan>
-						</p>
 					</div>
 				</div>
 	  		</div>

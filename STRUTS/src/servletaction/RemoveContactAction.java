@@ -62,7 +62,6 @@ public class RemoveContactAction extends Action
 		{
 			pRequest.setAttribute("error", "Error");
 		}*/
-		System.out.println("LOL");
 		return pMapping.findForward("end");
 	}
 }

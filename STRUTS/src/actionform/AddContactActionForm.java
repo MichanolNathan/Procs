@@ -1,6 +1,8 @@
 package actionform;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,9 +11,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 
+import domain.Adresse;
+import domain.Contact;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
+import domain.PhoneNumber;
+import service.GroupService;
 
 public class AddContactActionForm extends ActionForm
 {
@@ -25,12 +31,9 @@ public class AddContactActionForm extends ActionForm
 	private String email = null;
 	
 	/* PhoneNumber */
-	private String phoneKind = null;
-	private String phoneNumber = null;
-	
-	/* Entreprise */
-	private String entreprise = null;
-	private List entreprises; 
+	private String[] phoneKind = null;
+	private String[] phoneNumber = null;
+	private String[] idPhone = null;
 	
 	/* Adress */
 	private String street = null;
@@ -41,14 +44,13 @@ public class AddContactActionForm extends ActionForm
 	/* Group */
 	private List<Group> listGroups;
 	private String[] groups;
+	private GroupService groupeService;
 	
 	public AddContactActionForm() 
 	{
 		super();
-		EntrepriseDAO entrepriseDAO = new EntrepriseDAO();
-		this.entreprises = entrepriseDAO.getAllEntreprises();
-		
 		GroupDAO lGroupDAO = new GroupDAO();
+		groupeService = new GroupService();
 		this.listGroups = lGroupDAO.getAllGroups();
 	}
 	
@@ -60,33 +62,20 @@ public class AddContactActionForm extends ActionForm
 		this.groups = groups;
 	}
 
-	public String getPhoneKind() {
+	public String[] getPhoneKind() {
 		return phoneKind;
 	}
 	
-	public void setPhoneKind(String phoneKind) {
+	public void setPhoneKind(String[] phoneKind) {
 		this.phoneKind = phoneKind;
 	}
 
-	public String getPhoneNumber() {
+	public String[] getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(String[] phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEntreprise() {
-		return entreprise;
-	}
-	
-	public void setEntreprise(String entreprise) 
-	{
-		this.entreprise = entreprise;
-	}
-
-	public void setName(String entreprise) {
-		this.entreprise = entreprise;
 	}
 
 	public String getStreet() {
@@ -166,18 +155,7 @@ public class AddContactActionForm extends ActionForm
 		if (this.email == null || this.email.length() < 5 || this.email.length() > 75)
 		{
 			errors.add("email", new ActionMessage("form.contact.email.error"));
-		}
-		
-		/* PhoneNumber */
-		if ((this.phoneKind != "" && this.phoneKind.length() < 3) || this.phoneKind.length() > 10)
-		{
-			errors.add("phoneKind", new ActionMessage("form.contact.phoneKind.error.size"));
-		}
-		if ((this.phoneNumber != "" && this.phoneNumber.length() < 10) || this.phoneKind.length() > 15)
-		{
-			errors.add("phoneNumber", new ActionMessage("form.contact.phoneNumber.error.size"));
-		}
-		
+		}		
 		/* Adress */
 		if ((this.street != "" && this.street.length() < 1) || this.street.length() > 100)
 		{
@@ -198,7 +176,6 @@ public class AddContactActionForm extends ActionForm
 		
 		if(!errors.isEmpty()) 
 		{
-            request.setAttribute("entreprises", this.entreprises);
             request.setAttribute("listGroups", this.listGroups);
         }
 		

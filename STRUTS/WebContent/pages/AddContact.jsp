@@ -17,7 +17,6 @@
 <title><bean:message key="title"/></title>
 </head>
 <body>
-
 <div class="ui large menu">
   <a href="/Contact" class="item"><bean:message key="home"/></a>
   <a href="Home.do" class="item"><bean:message key="contacts"/></a>
@@ -37,7 +36,6 @@
    </div>
   </div>
 </div>
-
 <div class="ui container">
    <html:form method="post" action="AddContact.do" styleClass="ui form error">
    		<h4 class="ui dividing header"><bean:message key="form.contact"/></h4>
@@ -95,16 +93,6 @@
 				<div class="ui error message">
 	   				<p><html:errors property="street"/></p>
 				</div>
-			</div>
-		</div>
-		<h4 class="ui dividing header"><bean:message key="form.contact.entreprise"/></h4>
-		<div class="six wide field">
-			<html:select property="entreprise" styleClass="ui fluid dropdown">
-				<html:option value="0"><bean:message key="form.contact.entreprise.choice"/></html:option>
-				<html:optionsCollection name="entreprises" value="id" label="name"/>
-			</html:select>
-			<div class="ui error message">
-   				<p><html:errors property="entreprise"/></p>
 			</div>
 		</div>
 		<h4 class="ui dividing header"><bean:message key="form.contact.group"/></h4>

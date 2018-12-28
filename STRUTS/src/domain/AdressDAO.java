@@ -9,7 +9,7 @@ public class AdressDAO extends DAO
 		super();
 	}
 	
-	public String addAdress(Adresse adress)
+	public String addAdresse(Adresse adress)
 	{
 		String res = null;
 		try {
@@ -25,7 +25,7 @@ public class AdressDAO extends DAO
 	}
 	
 	
-	public Adresse getAdress(int id) 
+	public Adresse getAdresse(int id) 
 	{
 		Adresse adresse = null;
 		super.doTransaction();
@@ -34,7 +34,7 @@ public class AdressDAO extends DAO
 		return adresse;
 	}
 	
-	public String removeAdress(Adresse adress)
+	public String removeAdresse(Adresse adress)
 	{
 		String res = null;
 		try 

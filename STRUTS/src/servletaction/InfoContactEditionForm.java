@@ -1,6 +1,7 @@
 package servletaction;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,9 @@ import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
+import domain.PhoneNumber;
+import service.ContactService;
+import service.GroupService;
 
 public class InfoContactEditionForm extends Action 
 {
@@ -27,26 +31,28 @@ public class InfoContactEditionForm extends Action
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
-        
-		/*final EntrepriseDAO lEntrepriseDAO = new EntrepriseDAO();
-		List<Entreprise> entreprises = lEntrepriseDAO.getAllEntreprises();
-		pRequest.setAttribute("entreprises", entreprises);
+        String stringId = pRequest.getParameter("cid");
+        int id = Integer.parseInt(stringId);
+        ContactService contactService = new ContactService();
+        GroupService groupeService = new GroupService();
+        Contact contact = contactService.getContact(id);
+		List<Group> listGroups = groupeService.getAllGroups();
 		
-		final GroupDAO lGroupDAO = new GroupDAO();
-		List<Group> listGroups = lGroupDAO.getAllGroups();
-		pRequest.setAttribute("listGroups", listGroups);
-		
-		final ContactDAO contactDAO = new ContactDAO();
-		String s_id = (String) pRequest.getParameter("cid");
-		System.out.println(s_id);
-		try
-		{
-			int id = Integer.parseInt(s_id);
-			Contact contact = contactDAO.getContact(id);
-			System.out.println(contact);
-			pRequest.setAttribute("contact", contact);
+		Set<PhoneNumber> phones = contact.getPhoneNumbers();
+		if (phones.size() == 2) {
+			phones.add(new PhoneNumber("", ""));
+		} else if (phones.size() == 1) {
+			phones.add(new PhoneNumber("", ""));
+			phones.add(new PhoneNumber("", ""));
+		} else if (phones.size() == 0) {
+			phones.add(new PhoneNumber("", ""));
+			phones.add(new PhoneNumber("", ""));
+			phones.add(new PhoneNumber("", ""));
 		}
-		catch(Exception e) {}*/
+		
+		pRequest.setAttribute("listGroups", listGroups);
+		pRequest.setAttribute("phoneNumbers", phones);
+		pRequest.setAttribute("contact", contact);
 		
 		return pMapping.findForward("editContact");
 	}

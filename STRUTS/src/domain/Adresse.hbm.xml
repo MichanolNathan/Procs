@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
     <class name="Adresse" table="Adress_Table">
-        <id name="idAdress" type="long" column="idAdress" >
+        <id name="idAdress" type="int" column="idAdress" >
             <generator class="increment"/>
         </id>
 		<version name="version" access="field" column="VERSION"/>

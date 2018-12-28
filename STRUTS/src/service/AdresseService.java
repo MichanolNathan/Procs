@@ -9,7 +9,7 @@ public class AdresseService {
 	
 	public AdresseService() {};
 	public String addAdress(Adresse adresse) {
-		return this.addresseDao.addAdress(adresse);
+		return this.addresseDao.addAdresse(adresse);
 	}
 	
 	/*public String editAdresse (Adresse adresse) {
@@ -17,10 +17,10 @@ public class AdresseService {
 	}*/
 	
 	public Adresse getAdresse (int id) {
-		return this.addresseDao.getAdress(id);
+		return this.addresseDao.getAdresse(id);
 	}
 	
 	public String removeAdresse (Adresse adresse) {
-		return this.addresseDao.removeAdress(adresse);
+		return this.addresseDao.removeAdresse(adresse);
 	}
 }

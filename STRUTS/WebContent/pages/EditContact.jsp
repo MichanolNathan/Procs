@@ -66,7 +66,7 @@
    				<p><html:errors property="email"/></p>
 			</div>
 		</div>
-		<h4 class="ui dividing header"><bean:message key="form.contact.adress"/></h4>
+		<h4 class="ui dividing header"><bean:message key="form.contact.adresse"/></h4>
 		<bean:define id="adressCanvas" name="contact" property="adress"/>
 		<input type="hidden" name="idAdress" value="<bean:write name="adressCanvas" property="id"/>">
 		<div class="two fields">
@@ -99,17 +99,6 @@
 				<div class="ui error message">
 	   				<p><html:errors property="street"/></p>
 				</div>
-			</div>
-		</div>
-		<h4 class="ui dividing header"><bean:message key="form.contact.entreprise"/></h4>
-		<bean:define id="entrepriseCanvas" name="contact" property="entreprise"/>
-		<div class="six wide field">
-			<html:select property="entreprise" styleClass="ui fluid dropdown">
-				<html:option value="-1"><bean:message key="form.contact.entreprise.choice"/></html:option>
-				<html:optionsCollection name="entreprises" value="id" label="name"/>
-			</html:select>
-			<div class="ui error message">
-   				<p><html:errors property="entreprise"/></p>
 			</div>
 		</div>
 		<h4 class="ui dividing header"><bean:message key="form.contact.group"/></h4>

@@ -12,6 +12,7 @@ public class Adresse {
 	public String country;
 	private int version;
 	
+	public Adresse () {};
 	
 	public Adresse(int id)
 	{

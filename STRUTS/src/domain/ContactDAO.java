@@ -36,7 +36,9 @@ public class ContactDAO extends DAO
 		String res = null;
 		try 
 		{	
+			super.doTransaction();
 			super.getSession().delete(contact);
+			super.endTransaction();
 			res = "Suppression du contact réussie";
 		} 
 		catch (Exception e) 
@@ -51,8 +53,9 @@ public class ContactDAO extends DAO
 		String res = null;
 		try 
 		{
-			super.getSession().update(contact);
 			super.doTransaction();
+			super.getSession().update(contact);
+			super.endTransaction();
 			res = "mise à jour du contact réussie";
 		} 
 		catch (Exception e) 
@@ -68,7 +71,7 @@ public class ContactDAO extends DAO
 		try {
 			super.doTransaction();
 			super.getSession().save(contact);
-			super.doTransaction();
+			super.endTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -77,13 +80,9 @@ public class ContactDAO extends DAO
 		return res;
 	}
 	
-	/*public String searchContact(String search)
-	{
-		return "Je suis la méthode searchContact, vous avez cherchez : " + search;
-	}*/
-
 	public Contact getContact(int id) 
 	{
+		super.doTransaction();
 		return (Contact) super.getSession().get(Contact.class, id);
 	}
 

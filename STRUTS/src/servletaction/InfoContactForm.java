@@ -15,6 +15,7 @@ import domain.Entreprise;
 import domain.EntrepriseDAO;
 import domain.Group;
 import domain.GroupDAO;
+import service.GroupService;
 
 public class InfoContactForm extends Action 
 {
@@ -25,14 +26,9 @@ public class InfoContactForm extends Action
         if(session.getAttribute("user") == null) {
             return pMapping.findForward("connection");
         }
-		
-		/*final EntrepriseDAO lEntrepriseDAO = new EntrepriseDAO();
-		List<Entreprise> entreprises = lEntrepriseDAO.getAllEntreprises();
-		pRequest.setAttribute("entreprises", entreprises);
-		
-		final GroupDAO lGroupDAO = new GroupDAO();
-		List<Group> listGroups = lGroupDAO.getAllGroups();
-		pRequest.setAttribute("listGroups", listGroups);*/
+		GroupService groupeService = new GroupService();
+		List<Group> groups = groupeService.getAllGroups();
+		pRequest.setAttribute("listGroups", groups);
 		
 		return pMapping.findForward("addContact");
 	}
