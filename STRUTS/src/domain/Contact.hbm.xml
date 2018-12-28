@@ -24,8 +24,8 @@
 		
 		<many-to-one name="adresse" column="adresse" class="Adresse" not-null="true" cascade="all" lazy="false"></many-to-one>
 		
-		<set name="phoneNumbers" cascade="delete-orphan" lazy="false">
-			<key column="id" />
+		<set name="phoneNumbers" lazy="false" cascade="all-delete-orphan">
+			<key column="id_contact"/>
 			<one-to-many class="PhoneNumber" />
 		</set>
 		

@@ -29,16 +29,27 @@ public class GetDummyDataAction extends Action {
 		final GroupService groupService = (GroupService) context.getBean("groupService");
 		final ContactService contactService = (ContactService) context.getBean("contactService");
         
+		//Création des groupes à partir des bean
 		Group work = (Group) context.getBean("FamilyGroup");
         Group family = (Group) context.getBean("WorkGroup");
         Group friends = (Group) context.getBean("FriendsGroup");
         Group perso = (Group) context.getBean("Perso");
 
-        
+        //ajout des groupes        
         groupService.addGroup(work);
         groupService.addGroup(family);
         groupService.addGroup(friends);
         groupService.addGroup(perso);
+
+        //Création des contacts à parti des bean
+        Contact nathan = (Contact) context.getBean("addContactDummy1");
+        Contact alexandre = (Contact) context.getBean("addContactDummy2");
+        Contact ludwig = (Contact) context.getBean("addContactDummy3");
+
+        //Ajout des contacts à la BD
+        contactService.addContact(nathan);
+        contactService.addContact(alexandre);
+        contactService.addContact(ludwig);
 
         
         List<Group> groups = groupService.getAllGroups();

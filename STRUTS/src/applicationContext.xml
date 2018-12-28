@@ -47,24 +47,92 @@
 		<property name="id" value="4" />
 		<property name="groupName" value="Perso" />
 	</bean>
-	<!--
-	<bean id="addContact1" class="models.Contact">
-		<property name="id" />
-		<property name="lastName" />
-		<property name="firstName" />
-		<property name="email" />
-		<property name="adresse" ref="Adresse1" />
+	
+	<bean id="adresseDummy1" class="domain.Adresse">
+		<property name="street" value="10 rue de Paris"/>
+		<property name="city" value="Abidjan"/>
+		<property name="zip" value="39000"/>
+		<property name="country" value="Afrique"/>
+	</bean>
+	
+	<bean id="adresseDummy2" class="domain.Adresse">
+		<property name="street" value="10 rue du brexit"/>
+		<property name="city" value="Londres"/>
+		<property name="zip" value="25000"/>
+		<property name="country" value="Angleterre"/>
+	</bean>
+	
+	<bean id="adresseDummy3" class="domain.Adresse">
+		<property name="street" value="10 rue duPont"/>
+		<property name="city" value="Suresnes"/>
+		<property name="zip" value="92150"/>
+		<property name="country" value="France"/>
+	</bean>
+	
+	<bean id="phoneNumberDummy1" class="domain.PhoneNumber">
+		<constructor-arg name="phoneKind" value="+15"/>
+		<constructor-arg name="phoneNumber" value="123456789"/>
+		<property name="contact" ref="addContactDummy1"/>
+	</bean>
+	
+		<bean id="phoneNumberDummy2" class="domain.PhoneNumber">
+		<property name="phoneKind" value="+33"/>
+		<property name="phoneNumber" value="0777784203"/>
+		<property name="contact" ref="addContactDummy2"/>
+	</bean>
+	
+	<bean id="phoneNumberDummy3" class="domain.PhoneNumber">
+		<property name="phoneKind" value="+52"/>
+		<property name="phoneNumber" value="987654321"/>
+		<property name="contact" ref="addContactDummy3"/>
+	</bean>
+	
+	<bean id="addContactDummy1" class="domain.Contact" autowire="constructor">
+		<constructor-arg type="String" value="Michanol"/>
+		<constructor-arg type="String" value="Nathan"/>
+		<constructor-arg type="String" value="nath@gmail.com"/>
+		<constructor-arg ref="adresseDummy1"/>
+		<constructor-arg>
+			<set>
+				<ref bean="phoneNumberDummy1"/>
+			</set>
+		</constructor-arg>
+		<constructor-arg>
+			<set>
+				<ref bean="Perso"></ref>
+				<ref bean="WorkGroup"></ref>
+			</set>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="addContactDummy2" class="domain.Contact" autowire="constructor">
+		<property name="lastName" value="Petit-Pas"/>
+		<property name="firstName" value="Alexandre"/>
+		<property name="email" value="petitpasalexandre@gmail.com"/>
+		<property name="adresse" ref="adresseDummy2"/>
 		<property name="phoneNumbers">
 			<set>
-				<ref bean="phoneNumber1Contact1" />
-				<ref bean="phoneNumber2Contact1" />
+				<ref bean="phoneNumberDummy2"></ref>
 			</set>
 		</property>
-		<property name="groups"> 
+		<property name="groups">
+			<null/>
+		</property>
+		
+	</bean>
+	
+		<bean id="addContactDummy3" class="domain.Contact" autowire="constructor">
+		<property  name="lastName" value="Simon"/>
+		<property  name="firstName" value="Ludwig"/>
+		<property  name="email" value="lulu3000@gmail.com"/>
+		<property  name="adresse" ref="adresseDummy3"/>
+		<property name="phoneNumbers">
 			<set>
-				<ref bean="group1" />
+				<ref bean="phoneNumberDummy3"></ref>
 			</set>
+		</property>
+		<property name="groups">
+			<null/>
 		</property>
 	</bean>
-	-->
 </beans>

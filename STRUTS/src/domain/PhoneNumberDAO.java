@@ -34,25 +34,13 @@ public class PhoneNumberDAO extends DAO
 		return res;
 	}
 	
-	/*public String editPhoneNumber(PhoneNumber phoneNumber)
-	{
-		String res = null;
-		try 
-		{
-			super.getSession().update(phoneNumber);
-			super.doTransaction();
-			res = "mise à jour de l'adresse réussie";
-		} 
-		catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-		return res;
-	}*/
-	
 	public PhoneNumber getPhoneNumber(int id) 
 	{
-		return (PhoneNumber) super.getSession().get(PhoneNumber.class, id);
+		PhoneNumber phone = null;
+		super.doTransaction();
+		phone = (PhoneNumber) super.getSession().get(PhoneNumber.class, id);
+		super.endTransaction();
+		return phone;
 	}
 	
 	public String removePhoneNumber(PhoneNumber phoneNumber)

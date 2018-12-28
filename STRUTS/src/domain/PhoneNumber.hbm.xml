@@ -4,7 +4,7 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="domain">
     <class name="PhoneNumber" table="PhoneNumber_Table">
-        <id name="id" type="long" column="id" >
+        <id name="id" type="int" column="id" >
             <generator class="increment"/>
         </id>
 		<version name="version"  column="VERSION"/>
@@ -14,7 +14,7 @@
         <property name="phoneNumber" type="string">
             <column name="phoneNumber"/>
         </property>
-        <many-to-one name="contact" column="contactId" class="Contact"></many-to-one>
+        <many-to-one name="contact" column="id_contact" class="Contact"></many-to-one>
     </class>
     
 </hibernate-mapping>
