@@ -15,6 +15,8 @@ import com.sun.rowset.CachedRowSetImpl;
 import domain.DAO;
 import domain.Contact;
 
+import org.hibernate.stat.Statistics;
+import util.HibernateUtil;
 
 public class ContactDAO extends DAO 
 {   
@@ -72,7 +74,7 @@ public class ContactDAO extends DAO
 			super.doTransaction();
 			super.getSession().save(contact);
 			super.endTransaction();
-			res = "Adress add to the dataBase";
+			res = "Contact add to the DataBase";
 		}
 		catch (Exception e) {
 			e.printStackTrace();
