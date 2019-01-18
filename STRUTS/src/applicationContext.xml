@@ -135,4 +135,13 @@
 			<null/>
 		</property>
 	</bean>
+	
+	<aop:config>
+		<aop:aspect id="contactAspectBean" ref="contactLogger">
+			<aop:around
+				pointcut="execution(* addContact(domain.Contact)) and args(contact)"
+				method="log" arg-names="pjp,contact"/>
+		</aop:aspect>	
+	</aop:config>
+	<bean id="contactLogger" class="domain.ContactLogger"/>
 </beans>
