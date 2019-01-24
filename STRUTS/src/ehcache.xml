@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
     <diskStore path="java.io.tmpdir" />
     <defaultCache maxElementsInMemory="10000" eternal="false"
@@ -9,5 +10,7 @@
         eternal="false"
         timeToIdleSeconds="300"
         timeToLiveSeconds="600"
-        overflowToDisk="false"/>
+        overflowToDisk="false">
+       <persistence strategy="localTempSwap"/>
+      </cache>
 </ehcache> 

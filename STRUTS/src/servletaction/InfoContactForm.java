@@ -13,14 +13,8 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import domain.Entreprise;
-import domain.EntrepriseDAO;
-import domain.Group;
-import domain.GroupDAO;
-import service.AdresseService;
-import service.ContactService;
+import modele.Group;
 import service.GroupService;
-import service.PhoneNumberService;
 
 public class InfoContactForm extends Action 
 {

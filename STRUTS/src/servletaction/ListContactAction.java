@@ -1,7 +1,6 @@
 package servletaction;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +13,8 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import domain.Contact;
-import domain.ContactDAO;
-import service.AdresseService;
+import modele.Contact;
 import service.ContactService;
-import service.GroupService;
-import service.PhoneNumberService;
 
 public class ListContactAction extends Action 
 {

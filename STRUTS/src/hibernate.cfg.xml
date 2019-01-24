@@ -10,25 +10,21 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <!-- Cache de second niveau -->
- 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+ 		<property name="hibernate.cache.region.factory_class" >org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
         <property name="hibernate.cache.use_second_level_cache">true</property>
         <property name="hibernate.generate_statistics">true</property>
         <property name="hibernate.cache.use_structred_entries">true</property>
         <property name="hibernate.cache.use_query_cache">true</property>
-         <!-- fait en sorte qu'Hibernate gere automatiquement la session -->
-         <!-- Celle-ci est liée au thread local. -->
-        <property name="current_session_context_class">thread</property>
-       
         <!-- ici on configure le comportement lors du lancement d'hibernate -->
         <!-- valeur = update i..e si les tables de la base n'existent pas 
         elles sont crees, sinon elles sont MAJ, 
         la valeur =create i.e. creation à chaque lancement  -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
          <property name="hibernate.show_sql">true</property>
         <!-- mapping files/lien vers les fichiers de mapping -->
-        <mapping resource="domain/Adresse.hbm.xml"/>
-        <mapping resource="domain/Contact.hbm.xml"/>
-        <mapping resource="domain/Group.hbm.xml"/>
-        <mapping resource="domain/PhoneNumber.hbm.xml"/>
+        <mapping resource="modele/Adresse.hbm.xml"/>
+        <mapping resource="modele/Contact.hbm.xml"/>
+        <mapping resource="modele/Group.hbm.xml"/>
+        <mapping resource="modele/PhoneNumber.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -13,8 +13,8 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import domain.Contact;
-import domain.Group;
+import modele.Contact;
+import modele.Group;
 import service.ContactService;
 import service.GroupService;
 
@@ -41,15 +41,17 @@ public class GetDummyDataAction extends Action {
         groupService.addGroup(friends);
         groupService.addGroup(perso);
 
-        //Création des contacts à parti des bean
+        //Création des contacts à partir des bean
         Contact nathan = (Contact) context.getBean("addContactDummy1");
         Contact alexandre = (Contact) context.getBean("addContactDummy2");
         Contact ludwig = (Contact) context.getBean("addContactDummy3");
+        Contact boiteFondateur = (Contact) context.getBean("addEntrepriseDummy");
 
         //Ajout des contacts à la BD
         contactService.addContact(nathan);
         contactService.addContact(alexandre);
         contactService.addContact(ludwig);
+        contactService.addContact(boiteFondateur);
 
         
         List<Group> groups = groupService.getAllGroups();

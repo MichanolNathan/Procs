@@ -1,6 +1,5 @@
 package actionform;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,13 +13,11 @@ import org.apache.struts.action.ActionMessage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import domain.Adresse;
-import domain.Contact;
-import domain.Entreprise;
-import domain.EntrepriseDAO;
-import domain.Group;
-import domain.GroupDAO;
-import domain.PhoneNumber;
+import modele.Adresse;
+import modele.Contact;
+import modele.Entreprise;
+import modele.Group;
+import modele.PhoneNumber;
 import service.GroupService;
 
 public class EditContactActionForm extends ActionForm
@@ -45,6 +42,10 @@ public class EditContactActionForm extends ActionForm
 	private String city = null;
 	private String zip = null;
 	private String country = null;
+	
+	/* Entreprise */
+	private String name = null;
+	private String numSiret = null;
 	
 	/* Group */
 	private List<Group> listGroups;
@@ -172,6 +173,22 @@ public class EditContactActionForm extends ActionForm
 		this.email = email;
 	}
 	
+	public String getNumSiret() {
+		return numSiret;
+	}
+
+	public void setNumSiret(String numSiret) {
+		this.numSiret = numSiret;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
 	{
 		ActionErrors errors = new ActionErrors();
@@ -206,21 +223,43 @@ public class EditContactActionForm extends ActionForm
 			errors.add("country", new ActionMessage("form.contact.country.error.size"));
 		}
 		
+		/* Entreprise */
+		if (this.numSiret != null && this.numSiret != null) {
+			if (this.numSiret != "" && this.name != "" || this.numSiret.length() != 14) {
+				errors.add("numSiret", new ActionMessage("form.contact.numSiret.error.size"));
+			}
+			if (this.name != "" && this.numSiret != "" || (this.name.length() < 1 || this.name.length() > 45)) {
+				errors.add("name", new ActionMessage("form.contact.companyName.error.size"));
+			}
+		}
+		
 		if(!errors.isEmpty()) 
 		{
 			Set<PhoneNumber> phoneNumbers = new HashSet<PhoneNumber>();
 			for(int i=0;i<this.phoneKind.length;i++) {
+				System.out.println("Contenu de phoneNumbers : " + phoneNumbers.toString());
 				phoneNumbers.add(new PhoneNumber(this.phoneKind[i],this.phoneNumber[i]));
 			}
-			Adresse adress = new Adresse(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
+			
 			Set<Group> contactGroup = new HashSet<Group>();
+			if (groups != null) {
 			for (String idGroup : this.groups)
-			{
-				contactGroup.add(new Group(Integer.parseInt(idGroup)));
+				{
+					contactGroup.add(new Group(Integer.parseInt(idGroup)));
+				}
 			}
+			
+			Adresse adress = new Adresse(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
 			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phoneNumbers, contactGroup);
 			request.setAttribute("listGroups", this.listGroups);
-			request.setAttribute("contact", contact);
+			//Si les champs name et numSiret sont remplis alors il s'agit d'une entreprise
+			if (this.name != null && this.numSiret != null) {
+				Entreprise entreprise = new Entreprise(contact, numSiret, name);
+				request.setAttribute("contact", entreprise);
+			} else {
+				//Autrement un contact classique est créé
+				request.setAttribute("contact", contact);
+			}
         }
 		return errors;
 	}

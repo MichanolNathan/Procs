@@ -1,8 +1,6 @@
 package servletaction;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +15,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.EditContactActionForm;
-import domain.Adresse;
-import domain.AdressDAO;
-import domain.Contact;
-import domain.ContactDAO;
-import domain.GroupDAO;
-import domain.Entreprise;
-import domain.EntrepriseDAO;
-import domain.Group;
-import domain.GroupDAO;
-import domain.PhoneNumber;
-import domain.PhoneNumberDAO;
+import modele.Adresse;
+import modele.Contact;
+import modele.Entreprise;
+import modele.Group;
+import modele.PhoneNumber;
 import service.AdresseService;
 import service.ContactService;
 import service.GroupService;
@@ -68,6 +60,10 @@ public class EditContactAction extends Action
 		
 		final String[] groups = lForm.getGroups();
 		
+		/* Entreprise */
+		final String numSiret = lForm.getNumSiret();
+		final String name = lForm.getName();
+		
 		Set<PhoneNumber> phones = new HashSet<>();
 		if (phoneKind.length == phoneNumber.length && phoneKind.length == idPhone.length) {
 			for (int i=0; i<phoneKind.length; i++) {
@@ -97,6 +93,12 @@ public class EditContactAction extends Action
 		}
 		
 		Contact contact = contactService.getContact(id);
+		
+		if (name != null && numSiret != null) {
+			((Entreprise) contact).setName(name);
+			((Entreprise) contact).setNumSiret(numSiret);
+		}
+		
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		contact.setEmail(email);

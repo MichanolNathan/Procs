@@ -1,8 +1,7 @@
 package actionform;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,13 +11,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import domain.Adresse;
-import domain.Contact;
-import domain.EntrepriseDAO;
-import domain.Group;
-import domain.GroupDAO;
-import domain.PhoneNumber;
+import modele.Group;
 import service.GroupService;
 
 public class AddContactActionForm extends ActionForm
@@ -56,6 +49,10 @@ public class AddContactActionForm extends ActionForm
 	private List<Group> listGroups;
 	private String[] groups;
 	private GroupService groupService;
+	
+	/* Entreprise */
+	private String name = null;
+	private String numSiret = null;
 	
 	public AddContactActionForm() 
 	{
@@ -199,6 +196,22 @@ public class AddContactActionForm extends ActionForm
 		this.email = email;
 	}
 	
+	public String getNumSiret() {
+		return numSiret;
+	}
+
+	public void setNumSiret(String numSiret) {
+		this.numSiret = numSiret;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request)
 	{
 		ActionErrors errors = new ActionErrors();
@@ -266,6 +279,18 @@ public class AddContactActionForm extends ActionForm
 		{
             request.setAttribute("listGroups", this.listGroups);
         }
+		
+		/* Entreprise */
+		if (this.numSiret != "" && this.name != "" && this.numSiret.length() != 14) {
+			errors.add("numSiret", new ActionMessage("form.contact.numSiret.error.size"));
+		}
+		if (this.name != "" && this.numSiret != "" && (this.name.length() < 1 || this.name.length() > 45)) {
+			errors.add("companyName", new ActionMessage("form.contact.companyName.error.size"));
+		}
+		
+		if (!errors.isEmpty()) {
+			request.setAttribute("listGroups", this.listGroups);
+		}
 		
 		return errors;
 	}

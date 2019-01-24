@@ -6,26 +6,31 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+
 import com.sun.rowset.CachedRowSetImpl;
 
 import domain.DAO;
-import domain.PhoneNumber;
+import modele.PhoneNumber;
 
 public class PhoneNumberDAO extends DAO
 {
+	private SessionFactory sessionFactory;
 	
-	public PhoneNumberDAO()
+
+	
+	public PhoneNumberDAO(SessionFactory sessionFactory)
 	{
-		super();
+		super(sessionFactory);
 	}
 		
 	public String addPhoneNumber (PhoneNumber phoneNumber)
 	{
 		String res = null;
 		try {
-			super.doTransaction();
-			super.getSession().save(phoneNumber);
-			super.doTransaction();
+			//super.doTransaction();
+			this.sessionFactory.getCurrentSession().save(phoneNumber);
+			//super.doTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -37,9 +42,9 @@ public class PhoneNumberDAO extends DAO
 	public PhoneNumber getPhoneNumber(int id) 
 	{
 		PhoneNumber phone = null;
-		super.doTransaction();
-		phone = (PhoneNumber) super.getSession().get(PhoneNumber.class, id);
-		super.endTransaction();
+		//super.doTransaction();
+		phone = (PhoneNumber)super.getSessionFactory().getCurrentSession().get(PhoneNumber.class, id);
+		//super.endTransaction();
 		return phone;
 	}
 	
@@ -48,7 +53,7 @@ public class PhoneNumberDAO extends DAO
 		String res = null;
 		try 
 		{	
-			super.getSession().delete(phoneNumber);
+			this.sessionFactory.getCurrentSession().delete(phoneNumber);
 			res = "Suppression du numéro de téléphone réussie";
 		} 
 		catch (Exception e) 
@@ -57,6 +62,9 @@ public class PhoneNumberDAO extends DAO
 		}
 		return res;
 	}
-
+	
+	public SessionFactory getSessionFactory() {
+		return this.sessionFactory;
+	}
 
 }

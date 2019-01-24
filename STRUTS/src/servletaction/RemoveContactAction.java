@@ -11,17 +11,9 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import actionform.AddContactActionForm;
-import domain.Adresse;
-import domain.AdressDAO;
-import domain.Contact;
-import domain.ContactDAO;
-import domain.PhoneNumber;
-import domain.PhoneNumberDAO;
-import service.AdresseService;
+
+import modele.Contact;
 import service.ContactService;
-import service.EntrepriseService;
-import service.PhoneNumberService;
 
 public class RemoveContactAction extends Action 
 {

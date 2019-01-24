@@ -1,7 +1,7 @@
 package service;
 
-import domain.PhoneNumber;
 import domain.PhoneNumberDAO;
+import modele.PhoneNumber;
 
 public class PhoneNumberService {
 	

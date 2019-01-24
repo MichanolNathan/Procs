@@ -1,21 +1,25 @@
 package domain;
+import org.hibernate.SessionFactory;
+
 import domain.DAO;
+import modele.Adresse;
 
 public class AdressDAO extends DAO
-{
+{	
 	
-	public AdressDAO()
+	public AdressDAO(SessionFactory sessionFactory)
 	{
-		super();
+		super(sessionFactory);
 	}
+
 	
 	public String addAdresse(Adresse adress)
 	{
 		String res = null;
 		try {
-			super.doTransaction();
-			super.getSession().save(adress);
-			super.endTransaction();
+			//super.doTransaction();
+			super.getSessionFactory().getCurrentSession().save(adress);
+			//super.endTransaction();
 			res = "Adress add to the dataBase";
 		}
 		catch (Exception e) {
@@ -28,9 +32,9 @@ public class AdressDAO extends DAO
 	public Adresse getAdresse(int id) 
 	{
 		Adresse adresse = null;
-		super.doTransaction();
-		adresse = (Adresse) super.getSession().get(Adresse.class, id);
-		super.endTransaction();
+		//super.doTransaction();
+		adresse = (Adresse) super.getSessionFactory().getCurrentSession().get(Adresse.class, id);
+		//super.endTransaction();
 		return adresse;
 	}
 	
@@ -39,7 +43,7 @@ public class AdressDAO extends DAO
 		String res = null;
 		try 
 		{	
-			super.getSession().delete(adress);
+			super.getSessionFactory().getCurrentSession().delete(adress);
 			res = "Suppression de l'adresse réussie";
 		} 
 		catch (Exception e) 
@@ -48,5 +52,8 @@ public class AdressDAO extends DAO
 		}
 		return res;
 	}
+	
+
+	
 
 }

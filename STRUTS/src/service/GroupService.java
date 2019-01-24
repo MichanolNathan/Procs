@@ -2,8 +2,8 @@ package service;
 
 import java.util.List;
 
-import domain.Group;
 import domain.GroupDAO;
+import modele.Group;
 
 public class GroupService {
 	

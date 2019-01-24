@@ -1,12 +1,11 @@
 package service;
 
-import domain.Adresse;
-import domain.ContactDAO;
+import modele.Adresse;
 import domain.AdressDAO;
 
 public class AdresseService {
 	
-	private AdressDAO adressDAO = new AdressDAO();
+	private AdressDAO adressDAO;
 	
 	public AdresseService() {};
 	

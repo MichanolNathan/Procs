@@ -1,35 +1,25 @@
 package domain;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import org.hibernate.Query;
-
-import com.sun.rowset.CachedRowSetImpl;
-
 import domain.DAO;
-import domain.Contact;
+import modele.Contact;
 
-import org.hibernate.stat.Statistics;
-import util.HibernateUtil;
+import org.hibernate.SessionFactory;
 
 public class ContactDAO extends DAO 
-{   
-    public ContactDAO() {
-        super();
+{   		
+    public ContactDAO(SessionFactory sessionFactory) {
+        super(sessionFactory);
     }
     
     public List <Contact> getAllContacts()
     {
     	List <Contact> contacts = new ArrayList<Contact>();
-    	super.doTransaction();
-    	contacts = super.getSession().createQuery("select distinct contact from Contact contact left join fetch contact.phoneNumbers phone").list();
-		super.endTransaction();
+    	//super.doTransaction();
+    	contacts = super.getSessionFactory().getCurrentSession().createQuery("select distinct contact from Contact contact left join fetch contact.phoneNumbers phone").list();
+		//super.endTransaction();
     	return contacts;
     }
 
@@ -38,9 +28,9 @@ public class ContactDAO extends DAO
 		String res = null;
 		try 
 		{	
-			super.doTransaction();
-			super.getSession().delete(contact);
-			super.endTransaction();
+			//super.doTransaction();
+			super.getSessionFactory().getCurrentSession().delete(contact);
+			//super.endTransaction();
 			res = "Suppression du contact réussie";
 		} 
 		catch (Exception e) 
@@ -55,9 +45,9 @@ public class ContactDAO extends DAO
 		String res = null;
 		try 
 		{
-			super.doTransaction();
-			super.getSession().update(contact);
-			super.endTransaction();
+			//super.doTransaction();
+			super.getSessionFactory().getCurrentSession().update(contact);
+			//super.endTransaction();
 			res = "mise à jour du contact réussie";
 		} 
 		catch (Exception e) 
@@ -71,9 +61,9 @@ public class ContactDAO extends DAO
 	{
 		String res = null;
 		try {
-			super.doTransaction();
-			super.getSession().save(contact);
-			super.endTransaction();
+			//super.doTransaction();
+			super.getSessionFactory().getCurrentSession().save(contact);
+			//super.endTransaction();
 			res = "Contact add to the DataBase";
 		}
 		catch (Exception e) {
@@ -85,10 +75,9 @@ public class ContactDAO extends DAO
 	public Contact getContact(int id) 
 	{
 		Contact contact = null;
-		super.doTransaction();
-		contact = (Contact) super.getSession().get(Contact.class, id);
-		super.endTransaction();
+		//super.doTransaction();
+		contact = (Contact) super.getSessionFactory().getCurrentSession().get(Contact.class, id);
+		//super.endTransaction();
 		return contact;
 	}
-
 }

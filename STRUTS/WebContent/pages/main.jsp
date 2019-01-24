@@ -3,7 +3,8 @@
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="domain.Contact"%>
+<%@ page import="modele.Contact"%>
+<%@ page import="modele.Entreprise"%>
 <%@ page import="java.util.List"%>
 <html>
 <head>
@@ -72,6 +73,13 @@
 		            <td><bean:write name="contact" property="lastName"/></td>
 		            <td><bean:write name="contact" property="firstName"/></td>
 		            <td><bean:write name="contact" property="email"/></td>
+		           <td>
+		            <% if (Entreprise.class.isInstance(contact)) { %>
+		            	<i class="building outline icon"></i> Entreprise
+		            	<% } else { %>
+		            		<i class="user outline icon"></i> Personne
+		            <%} %>
+		            </td>
 		            <td><i style="cursor: pointer;" id="plus-<bean:write name="contact" property="id"/>" class="plus icon"></i><a href="ContactEdition.do?cid=<bean:write name="contact" property="id"/>"><i class="write icon"></i></a> <a href="ContactSuppression.do?id=<bean:write name="contact" property="id"/>"><i class="trash outline icon"></i></a></td>
 		        </tr>
 	        </logic:iterate>
@@ -121,6 +129,17 @@
 							<p><span style="font-weight: bold;"><bean:message key="form.contact.phoneNumber.label"/></span>: <bean:write name="phoneNumber" property="phoneNumber"/></p>
 						</div>
 				   </logic:iterate>
+				   <% if (Entreprise.class.isInstance(contact)) { %>
+				   		<div class="sixteen wide column">
+				   			<h4 class="ui dividing header"><bean:message key="form.contact.entreprise"/></h4>
+				   		</div>
+				   		<div class="eight wide column">
+				   			<p><span style="font-weight: bold;"><bean:message key="form.contact.numSiret.label"/></span>: <bean:write name="contact" property="numSiret"/></p>
+				   		</div>
+				   		<div class="eight wide column">
+				   			<p><span style="font-weight: bold;"><bean:message key="form.contact.companyName.label"/></span>: <bean:write name="contact" property="name"/></p>
+				   		</div>
+				   <% } %>
 				</div>
 	  		</div>
 		</div>

@@ -11,16 +11,15 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-//import org.springframework.context.ApplicationContext;
-//import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import actionform.AddContactActionForm;
-import domain.Adresse;
-import domain.Contact;
-import domain.Group;
-import domain.PhoneNumber;
+import modele.Adresse;
+import modele.Contact;
+import modele.Entreprise;
+import modele.Group;
+import modele.PhoneNumber;
 import service.AdresseService;
 import service.ContactService;
 import service.GroupService;
@@ -56,6 +55,9 @@ public class AddContactAction extends Action {
 		final String phoneNumber2 = lForm.getPhoneNumber2();
 		final String phoneKind3 = lForm.getPhoneKind3();
 		final String phoneNumber3 = lForm.getPhoneNumber3();
+		/* Entreprise */
+		final String numSiret = lForm.getNumSiret();
+		final String name = lForm.getName();
 		
 		final String[] groups = lForm.getGroups();
 		
@@ -91,8 +93,12 @@ public class AddContactAction extends Action {
 		adressService.addAdress(adresse);
 		
 		Contact contact = new Contact(lastName, firstName, email, adresse, phoneNumbers, contactGroups);
-
-		contactService.addContact(contact);
+		if (name != "" && numSiret != "") {
+			Contact company = new Entreprise(contact, numSiret, name);
+			contactService.addContact(company);
+		} else {
+			contactService.addContact(contact);
+		}
 		return pMapping.findForward("success");
 	}
 }

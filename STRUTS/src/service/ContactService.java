@@ -1,17 +1,12 @@
 package service;
 
 import java.util.List;
-import java.util.Set;
-
-import domain.AdressDAO;
-import domain.Contact;
 import domain.ContactDAO;
-import domain.EntrepriseDAO;
-import domain.PhoneNumberDAO;
+import modele.Contact;
 
 public class ContactService {
 	
-	ContactDAO contactDAO = new ContactDAO();
+	public ContactDAO contactDAO;
 
 	public ContactService() {};
 	

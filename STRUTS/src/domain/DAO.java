@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import com.sun.rowset.CachedRowSetImpl;
 import util.HibernateUtil;
@@ -21,15 +22,21 @@ import util.HibernateUtil;
 public class DAO {
 	
 	private Transaction transac;
+	private SessionFactory sessionFactory;
 	
 
-	DAO() {
+	DAO(SessionFactory sessionFactory) {
 		super();
 		this.transac = null;
+		this.sessionFactory = sessionFactory;
 	}
 	
 	public Session getSession() {
 		return HibernateUtil.getSessionFactory().getCurrentSession();
+	}
+	
+	public void setSessionFactory (SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 	
 	public void doTransaction() {
@@ -57,5 +64,10 @@ public class DAO {
 		}
 		this.transac = null;
 	}
+	
+	public SessionFactory getSessionFactory() {
+		return this.sessionFactory;
+	}
+	
 	
 }
