@@ -64,6 +64,7 @@
 				<th><bean:message key="form.contact.lastName.label"/></th>
 				<th><bean:message key="form.contact.firstName.label"/></th>
 				<th><bean:message key="form.contact.email.label"/></th>
+				<th><bean:message key="form.contact.type.label"/></th>
 				<th><bean:message key="main.actions"/></th>
 			</tr>
 		</thead>

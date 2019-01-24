@@ -224,14 +224,14 @@ public class EditContactActionForm extends ActionForm
 		}
 		
 		/* Entreprise */
-		if (this.numSiret != null && this.numSiret != null) {
+		/*if (this.numSiret != null && this.numSiret != null) {
 			if (this.numSiret != "" && this.name != "" || this.numSiret.length() != 14) {
 				errors.add("numSiret", new ActionMessage("form.contact.numSiret.error.size"));
 			}
 			if (this.name != "" && this.numSiret != "" || (this.name.length() < 1 || this.name.length() > 45)) {
 				errors.add("name", new ActionMessage("form.contact.companyName.error.size"));
 			}
-		}
+		}*/
 		
 		if(!errors.isEmpty()) 
 		{
@@ -243,16 +243,17 @@ public class EditContactActionForm extends ActionForm
 			
 			Set<Group> contactGroup = new HashSet<Group>();
 			if (groups != null) {
-			for (String idGroup : this.groups)
-				{
-					contactGroup.add(new Group(Integer.parseInt(idGroup)));
-				}
+				for (String idGroup : this.groups)
+					{
+						contactGroup.add(new Group(Integer.parseInt(idGroup)));
+					}
 			}
 			
 			Adresse adress = new Adresse(Integer.parseInt(this.idAdress), this.street, this.city, this.zip, this.country);
 			Contact contact = new Contact(Integer.parseInt(this.id), this.lastName, this.firstName, this.email, adress, phoneNumbers, contactGroup);
 			request.setAttribute("listGroups", this.listGroups);
 			//Si les champs name et numSiret sont remplis alors il s'agit d'une entreprise
+			request.setAttribute("phoneNumbers", phoneNumbers);
 			if (this.name != null && this.numSiret != null) {
 				Entreprise entreprise = new Entreprise(contact, numSiret, name);
 				request.setAttribute("contact", entreprise);
